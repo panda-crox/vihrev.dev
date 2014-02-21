@@ -9,15 +9,19 @@
 			<td>ЦВЕТ ФОНА</td>
 			<td colspan="5"><input type="text" class="input-bg" value="#000000"></td>
 		</tr>
+		<?php if ($GLOBALS['top-banner']) : foreach ($GLOBALS['top-banner'] as $key => $item) : ?>
 		<tr>
-			<td>УДАЛИТЬ, ПЕРЕМЕСТИТЬ БАННЕР</td>
-			<td style="padding: 0; text-align: center; width: 45px;">1</td>
+			<?php if (!$key) : ?>
+			<td rowspan="<?php echo count($GLOBALS['top-banner']) ?>">УДАЛИТЬ, ПЕРЕМЕСТИТЬ БАННЕР</td>
+			<?php endif; ?>
+			<td style="padding: 0; text-align: center; width: 45px;"><?php echo $key + 1 ?></td>
 			<td style="padding: 0; text-align: center; width: 45px;"><span class="sort"><span class="ctrl-up"></span><span class="ctrl-down"></span></span></td>
-			<td>canon_2.jpg</td>
-			<td>canon_2.jpg</td>
-			<td>http://banners-flash.ru/portfolio.php?id=38</td>
+			<td><?php echo $item['file'] ?></td>
+			<td><?php echo $item['file'] ?></td>
+			<td><?php echo $item['url'] ?></td>
 			<td style="padding: 0; text-align: center; width: 45px;">x</td>
 			<td></td>
 		</tr>
+		<?php endforeach; endif; ?>
 	</table>
 </div>

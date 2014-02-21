@@ -76,6 +76,7 @@ function checkElements() {
 
   $('.b-portfolio').css({'min-height': viewportHeight - 40});
   $('.active .b-nav__item__popup').css({'width': subnavWidth});
+  $('.b-admin-banners').css({'margin-left': subnavWidth}).find('td:first').css({'width': subnavWidth});
 
 
   $('form').trigger('reset');

@@ -144,7 +144,7 @@ a {outline: none;}
 					@include transition(0.5s);
 				}
 			}
-			&.spec a {
+			&:nth-child(-1) a {
 				background: $green;
 				&:hover {background: darken($green, 7%);}
 			}
@@ -867,7 +867,6 @@ a {outline: none;}
 
 
 .b-admin-banners {
-	margin-left: 20%;
 	font-size: 14px;
 	table {
 		width: 100%;

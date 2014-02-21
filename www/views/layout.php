@@ -12,7 +12,7 @@
 	<script src="/assets/js/scripts.js" type="text/javascript"></script>
 </head>
 
-<body class="<?php echo $this->isAdmin ? 'admin' : 'site' ?>">
+<body class="<?php echo $this->isAdmin ? 'admin' : 'client' ?>">
 	<header class="b-header">
 		<?php if (!$this->isAdmin) : ?>
 		<div class="b-logo"><a href="/"><img src="/assets/images/logo.png"></a></div>
@@ -28,22 +28,19 @@
 
 		<nav class="b-nav">
 			<?php foreach ($GLOBALS['nav'] as $item) :
-			if ($item['side'] == 'both' || ($item['side'] == 'admin' && $this->isAdmin) || ($item['side'] == 'site' && !$this->isAdmin)) : ?>
+			if (($item['side'] == 'admin' && !$this->isAdmin) || ($item['side'] == 'client' && $this->isAdmin)) continue; ?>
 			<div class="b-nav__item <?php if (@strpos($this->requestPath, $item['url']) !== false || $this->requestPath == $item['url']) echo 'active' ?>">
 				<a href="/<?php echo $item['url'] ?>" class="<?php if (@strpos($this->requestPath, $item['url']) !== false || $this->requestPath == $item['url']) echo 'current' ?>"><?php echo $item['caption'] ?><?php if ($item['childs'] && !$this->isAdmin) : ?> <i class="icon-menu"></i><?php endif; ?></a>
 				<?php if ($item['childs']) : ?>
 				<nav class="b-nav__item__popup">
 					<?php foreach ($item['childs'] as $child) :
-					if ($child['side'] == 'both' || ($child['side'] == 'admin' && $this->isAdmin) || ($child['side'] == 'site' && !$this->isAdmin)) : ?>
+					if (($item['side'] == 'admin' && !$this->isAdmin) || ($item['side'] == 'client' && $this->isAdmin)) continue; ?>
 					<a href="/<?php echo $child['url'] ?>" class="<?php if (@strpos($this->requestPath, $child['url']) !== false) echo 'current' ?>"><?php echo $child['caption'] ?></a>
-				<?php endif; endforeach; ?>
+				<?php endforeach; ?>
 				</nav>
 				<?php endif; ?>
 			</div>
-			<?php endif; endforeach; ?>
-			<?php if (!$this->isAdmin) : ?>
-			<div class="b-nav__item spec"><a href="#">СДЕЛАЙ САМ</a></div>
-			<?php endif; ?>
+			<?php endforeach; ?>
 		</nav>
 	</header>
 
