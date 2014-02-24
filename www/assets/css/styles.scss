@@ -19,7 +19,7 @@ i {font-family: "MyriadProItalic"; font-style: normal;}
 a {outline: none;}
 
 
-[type="text"], [type="password"], textarea {
+[type="text"], [type="password"], textarea, select {
 	width: 100%;
 	font: 16px/1 "MyriadProRegular", Arial, sans-serif;
 	resize: none;
@@ -27,16 +27,50 @@ a {outline: none;}
 }
 
 
+.icon-cancel-circled {
+	font-size: 20px;
+	line-height: 1;
+	color: $red;
+	cursor: pointer;
+}
+
+
 .btn {
 	background: $red;
 	display: inline-block;
+	border: none;
 	text-align: center;
 	color: white;
-	font-family: "MyriadProRegular";
+	font: 14px/1 "MyriadProRegular";
 	cursor: pointer;
 	text-decoration: none;
 	@include transition(0.5s);
 	&:hover {background: darken($red, 7%);}
+}
+
+
+.uploader {
+	.btn {
+		position: relative;
+		overflow: hidden;
+		input {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			margin: 0;
+			opacity: 0;
+			cursor: pointer;
+		}
+	}
+	.selected-files {
+		padding: 0;
+		margin: 0;
+		list-style-position: inside;
+		font-size: 12px;
+		color: #999999;
+	}
 }
 
 
@@ -135,37 +169,62 @@ a {outline: none;}
 						color: white;
 					}
 				}
+				.admin & {display: none;}
 			}
 			&:hover {
 				& > a {background: darken($red, 7%);}
 				& > .b-nav__item__popup {
 					visibility: visible;
 					opacity: 1;
+					z-index: 1000;
 					@include transition(0.5s);
 				}
 			}
-			&:nth-child(-1) a {
+			.client &:nth-child(1) {display: none;}
+			.client &:nth-last-child(1) a {
 				background: $green;
 				&:hover {background: darken($green, 7%);}
 			}
-			&.active .b-nav__item__popup {
-				background: #3d3d3d;
-				position: fixed;
-				left: 0;
-				top: 50px;
-				bottom: 60px;
-				width: 80px;
-				visibility: visible;
-				opacity: 1;
-				a {
-					padding: 7px 0;
-					font-size: 12px;
-					color: #bababa;
-					border-bottom: 1px solid $gray;
-					text-align: center;
-					&:hover, &.current {
-						background: #1a1a1a;
-						color: white;
+			&.active {
+				& > a {background: darken($red, 7%);}
+				.client &:nth-last-child(1) a {background: darken($green, 7%);}
+				.b-nav__item__popup {
+					background: #3d3d3d;
+					position: fixed;
+					left: 0;
+					top: 50px;
+					bottom: 60px;
+					width: 80px;
+					visibility: visible;
+					opacity: 1;
+					a {
+						padding: 7px 0;
+						font-size: 12px;
+						color: #bababa;
+						border-bottom: 1px solid $gray;
+						text-align: center;
+						&:hover, &.current {
+							background: #1a1a1a;
+							color: white;
+						}
+					}
+					.admin & {
+						display: block;
+						background: #f4f4f4;
+						@include transition(none);
+						@include box-shadow(none);
+						a {
+							padding: 15px;
+							font-size: 14px;
+							line-height: 15px;
+							height: 15px;
+							color: black;
+							border-bottom: 1px solid #ccc;
+							&:hover, &.current {
+								background: #ddd;
+								color: $red;
+							}
+						}
 					}
 				}
 			}
@@ -305,10 +364,10 @@ a {outline: none;}
 	.b-clients__item {
 		display: none;
 		vertical-align: middle;
-		width: 20%;
 		padding: 45px 0;
 		text-align: center;
 		border-left: 1px solid #cccccc;
+		img {max-width: 100%;}
 		&:first-child {border: none;}
 		&:nth-child(-n + 3) {display: table-cell; width: 100% / 3;}
 		@for $i from 3 through 10 {
@@ -693,10 +752,24 @@ a {outline: none;}
 		.btn-wrapper {
 			float: right;
 			.btn {
-				border: none;
 				padding: 0;
 				width: 100px;
 				height: 30px;
+			}
+		}
+		.uploader {
+			width: 140px;
+			float: right;
+			margin-right: 10px;
+			.btn {
+				background: $gray;
+				padding: 8px 0;
+				width: 140px;
+				height: 14px;
+			}
+			.selected-files {
+				float: right;
+				width: 300px;
 			}
 		}
 	}
@@ -861,39 +934,50 @@ a {outline: none;}
 	}
 	.btn {
 		padding: 15px 20px;
-		border: 1px solid lighten($red, 20%);
 	}
 }
 
 
-.b-admin-banners {
+.admin .b-content {
 	font-size: 14px;
 	table {
-		width: 100%;
 		border: none;
 		border-collapse: collapse;
-		td {
-			padding: 0 10px;
-			height: 45px;
-			border: 1px solid #eaeaea;
-			&:nth-child(1) {
-				padding: 0; 
+		td, th {
+			padding: 2px 10px;
+			height: 41px;
+			border-right: 1px solid #eaeaea;
+			border-bottom: 1px solid #eaeaea;
+			&.small {
+				padding: 0;
 				text-align: center;
+				width: 45px;
 			}
+			img {max-height: 100%; vertical-align: top;}
 		}
 	}
-	.b-admin-banners__format {
-		font-size: 12px;
-		color: #999999;
-	}
-	.input-bg {width: 70px;}
-	.input-url {width: 250px; margin: 0 10px;}
 	.btn {
 		vertical-align: top;
 		font-size: 12px;
 		line-height: 1;
 		height: 12px;
 		padding: 7px 15px;
+	}
+	button.btn {height: 26px;}
+	.uploader .btn {background: $gray;}
+}
+
+
+.b-admin-banners {
+	.b-admin-banners__format {
+		font-size: 12px;
+		color: #999999;
+	}
+	.uploader {
+		display: inline-block;
+		vertical-align: top;
+		width: 80px;
+		.selected-files {width: 300px;}
 	}
 }
 
@@ -961,5 +1045,55 @@ a {outline: none;}
 		text-transform: uppercase;
 		text-align: center;
 		padding: 8px 0;
+	}
+}
+
+
+.b-loading {
+	background: transparentize(white, 0.3);
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	text-align: center;
+	display: none;
+	&.visible {display: block;}
+	.b-loading__msg {
+		background: white;
+		display: inline-block;
+		padding: 10px;
+		font-size: 18px;
+	}
+}
+
+
+.b-alert {
+	background: transparentize(black, 0.3);
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	text-align: center;
+	display: none;
+	&.visible {display: block;}
+	.b-alert__msg {
+		width: 400px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		background: white;
+		text-align: center;
+		@include transform(translate(-50%, -50%));
+		h4 {
+			background: $red;
+			padding: 10px;
+			margin: 0;
+			color: white;
+		}
+		.b-alert__msg__text {padding: 20px;}
 	}
 }

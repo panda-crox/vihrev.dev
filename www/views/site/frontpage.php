@@ -1,15 +1,18 @@
+<?php if ($GLOBALS['top-banner']) : ?>
 <div class="b-banners">
 	<div class="b-banners__slider">
-		<?php if ($GLOBALS['top-banner']) : foreach ($GLOBALS['top-banner'] as $item) : ?>
+		<?php foreach ($GLOBALS['top-banner'] as $item) : ?>
 		<div class="b-slide" style="background: <?php echo $item['background'] ?>">
-			<a href="/<?php echo $item['url'] ?>"><img src="/files/<?php echo $item['file'] ?>"></a>
+			<a href="<?php echo $item['url'] ?>"><img src="/files/<?php echo $item['file'] ?>"></a>
 		</div>
-		<?php endforeach; endif; ?>
+		<?php endforeach; ?>
 	</div>
 </div>
+<?php endif; ?>
 
+<?php if ($GLOBALS['previews']) : ?>
 <div class="b-previews">
-	<?php if ($GLOBALS['previews']) : foreach ($GLOBALS['previews'] as $item) : ?>
+	<?php foreach ($GLOBALS['previews'] as $item) : ?>
 	<div class="b-previews__item">
 		<a href="/<?php echo $item['url'] ?>">
 			<img src="/files/<?php echo $item['preview'] ?>" alt="">
@@ -20,14 +23,17 @@
 			</div>
 		</a>
 	</div>
-	<?php endforeach; endif; ?>
+	<?php endforeach; ?>
 </div>
+<?php endif; ?>
 
+<?php if ($GLOBALS['clients']) : ?>
 <div class="b-clients">
-	<?php if ($GLOBALS['clients']) : foreach ($GLOBALS['clients'] as $item) : ?>
+	<?php foreach ($GLOBALS['clients'] as $item) : ?>
 	<div class="b-clients__item"><img src="/files/<?php echo $item['file'] ?>" alt=""></div>
-	<?php endforeach; endif; ?>
+	<?php endforeach; ?>
 </div>
+<?php endif; ?>
 
 <div class="b-services">
 	<div class="b-services__item">

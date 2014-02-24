@@ -9,40 +9,50 @@ jQuery(function($) {
 
 
   $(document)
+  .on('click', function(event) {
+    $('.visible').removeClass('visible');
+  })
   .on('click', 'a', function(e) {
     if ($(this).attr('target')) return;
-    if ($(this).attr('href') == '/') $('.current').removeClass('current');
-    $('.active').removeClass('active').find('.b-nav__item__popup').css({'width': 'auto'});
-    $('.current', $(this).parents('nav')).removeClass('current');
-    $(this).addClass('current').parents('.b-nav__item').addClass('active').find('>a').addClass('current').next('.b-nav__item__popup').css({'width': subnavWidth});
-    var state = {
-      title: $(this).text(),
-      url: $(this).attr('href')
-    }
-    history.pushState(state, state.title, state.url);
+    $('.current').removeClass('current');
+    history.pushState(null, null, $(this).attr('href'));
     ajaxPage();
     e.preventDefault();
   })
   .on('submit', 'form', function(e) {
-    $(this).append('<input')
-    var data = $(this).serializeArray();
-    data.push({name: "ajax", value: true});
-    console.log(data);
-    $.post(window.location, data, function(data) {
-      $('.b-content').html(data);
-      checkElements();
-      $.scrollTo(0);
-    });
+    var form = $(this);
+    if ($('.selected-files li', form).length) {
+      onComplete = function(filename, response, uploadBtn) {
+        form.append('<input type="hidden" name="'+ $(':file', uploadBtn).data('name') +'" value="'+ response.file +'">');
+        $('.selected-files li:contains("'+ filename +'")', form).remove();
+        if(!$('.selected-files li', form).length) form.submit();
+      }
+      $.each(uploader._queue, function(index, item) { uploader.submit(); });
+    } else {
+      var data = form.serializeArray();
+      ajaxPage(data);
+    }
     e.preventDefault();
-  });;
+  })
+  .on('click', '[data-remove]', function(event) {
+    var data = $(this).data('remove');
+    data.action = 'remove';
+    ajaxPage(data);
+  });
 
   window.onpopstate = function( e ) {
     ajaxPage();
   }
 
 
-  checkElements();
+  init();
 });
+
+
+var selectedFiles
+    , uploader
+    , loadingTimeout
+    , onComplete = function(filename, response, uploadBtn) {};
 
 
 function mapInit() {
@@ -61,9 +71,10 @@ function mapInit() {
 }
 
 
-function checkElements() {
+function init() {
+  $('script[src*="maps.gstatic.com"]').remove();
   if($('#map-canvas').length) {
-    mapInit();
+    $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBhLxDE78q5-SKIg1jMghOMVyZeHTT7HWg&sensor=true&callback=mapInit');
   }
 
 
@@ -74,19 +85,86 @@ function checkElements() {
   });
 
 
+  $('.active').removeClass('active').find('.b-nav__item__popup').css({'width': 'auto'});
+
+  $('a').each(function(index, element) {
+    if ($.inArray($(this).attr('href'), [window.location.pathname, window.location.search, window.location.pathname+window.location.search]) >= 0) {
+      $(this).addClass('current').parents('.b-nav__item').addClass('active');
+    }
+  });
+
+
   $('.b-portfolio').css({'min-height': viewportHeight - 40});
   $('.active .b-nav__item__popup').css({'width': subnavWidth});
-  $('.b-admin-banners').css({'margin-left': subnavWidth}).find('td:first').css({'width': subnavWidth});
+  $('.admin .b-content').css({'margin-left': subnavWidth})
+  $('.b-admin-banners td:first').css({'width': subnavWidth});
 
 
   $('form').trigger('reset');
+
+
+  selectedFiles = false;
+  if (uploader) uploader.destroy();
+  if ($('.uploader').length) {
+    uploader = new ss.SimpleUpload({
+      button: $('.uploader .btn').toArray(),
+      url: '/uploadFiles',
+      name: 'file',
+      multiple: true,
+      autoSubmit: false,
+      maxUploads: 10,
+      responseType: 'json',
+      onChange: function(filename, extension, uploadBtn) {
+        $('.selected-files', $(uploadBtn).parents('.uploader')).empty();
+        setTimeout(function() {
+          $.each(uploader._queue, function(index, item) {
+            $('.selected-files', $(uploadBtn).parents('.uploader')).append('<li>'+item.file.name+'</li>');
+          })
+        }, 0);
+      },
+      onComplete: function(filename, response, uploadBtn) {
+        onComplete(filename, response, uploadBtn);
+      }
+    });
+  }
 }
 
 
-function ajaxPage() {
-  $.get(window.location, {ajax:true}, function(data) {
-    $('.b-content').html(data);
-    checkElements();
-    $.scrollTo(0);
-  });
+function ajaxPage(postData) {
+  data = postData || {};
+  loadingTimeout = setTimeout(function() {
+    $('.b-loading').addClass('visible');
+  }, 300);
+  
+  $.ajax({
+    url: window.location,
+    data: data,
+    type: postData ? 'POST' : 'GET',
+    success: function(response) {
+      clearTimeout(loadingTimeout);
+      $('.b-loading').removeClass('visible');
+      if(/json/.test(response)) {
+        response = $.parseJSON(response);
+        if(response.type == 'message') {
+          $('form').trigger('reset');
+          $('.b-alert').addClass('visible');
+          setTimeout(function() {
+            $('.b-alert').removeClass('visible');
+          }, 2000);
+        }
+        else if (response.redirect) {
+          history.pushState(null, null, response.redirect);
+          ajaxPage();
+        }
+      } else {
+        $('.b-content').html(response);
+        $(document).scrollTop(0);
+        init();
+      }
+  }});
+}
+
+
+function removeItem (id) {
+  $('[data-id="'+id+'"]').remove();
 }

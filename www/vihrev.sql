@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 21 2014 г., 07:48
+-- Время создания: Фев 24 2014 г., 00:42
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -30,24 +30,21 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) NOT NULL,
   `file` varchar(256) NOT NULL,
-  `on_frontpage` int(1) NOT NULL,
+  `on_frontpage` int(1) NOT NULL DEFAULT '1',
   `index` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Дамп данных таблицы `clients`
 --
 
 INSERT INTO `clients` (`id`, `name`, `file`, `on_frontpage`, `index`) VALUES
-(1, 'AlarmMotors', 'client-1.png', 1, 1),
-(2, 'intouch', 'client-1.png', 1, 2),
-(3, 'Canon', 'client-3.png', 1, 3),
-(4, 'TeleTrade', 'client-4.png', 1, 4),
-(5, 'Роснефть', 'client-5.png', 1, 5),
-(6, 'Роснефть', 'client-5.png', 1, 6),
-(7, 'Роснефть', 'client-5.png', 1, 7),
-(8, 'Роснефть', 'client-5.png', 1, 8);
+(16, 'РОСНЕФТЬ', '1393144800750.png', 1, 0),
+(15, 'TeleTrade', '1393144782370.png', 1, 0),
+(14, 'Canon', '1393144767808.png', 1, 0),
+(12, 'alarmmotors', '1393144731142.png', 1, 0),
+(13, 'INTOUCH', '1393144753272.png', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -60,26 +57,31 @@ CREATE TABLE IF NOT EXISTS `navigation` (
   `caption` varchar(256) NOT NULL COMMENT 'Название, отображающееся в пунктах меню',
   `url` varchar(256) NOT NULL COMMENT 'Адрес страницы',
   `module` enum('frontpage','portfolio','price','support') NOT NULL COMMENT 'Шаблон страницы',
+  `section` varchar(256) NOT NULL,
   `parent` int(2) NOT NULL COMMENT 'Родительский пункт',
   `side` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Дамп данных таблицы `navigation`
 --
 
-INSERT INTO `navigation` (`id`, `caption`, `url`, `module`, `parent`, `side`) VALUES
-(1, 'Главная', '', 'frontpage', 0, 'admin'),
-(2, 'Портфолио', 'portfolio', 'portfolio', 0, 'both'),
-(3, 'Стоимость услуг', 'price', 'price', 0, 'both'),
-(4, 'Обратная связь', 'support', 'support', 0, 'both'),
-(5, 'Баннеры', 'banners', 'portfolio', 2, 'both'),
-(6, 'Полиграфия', 'polygraphy', 'portfolio', 2, 'both'),
-(7, 'Логотипы', 'logo', 'portfolio', 2, 'both'),
-(9, 'Верхний баннер', 'top-banner', 'frontpage', 1, 'admin'),
-(10, 'Клиенты', 'clients', 'frontpage', 1, 'admin'),
-(11, 'Настройки сайта', 'settings', 'frontpage', 1, 'admin');
+INSERT INTO `navigation` (`id`, `caption`, `url`, `module`, `section`, `parent`, `side`) VALUES
+(1, 'Главная', '', 'frontpage', '', 0, ''),
+(2, 'Портфолио', 'portfolio', 'portfolio', '', 0, ''),
+(3, 'Стоимость услуг', 'price', 'price', '', 0, ''),
+(4, 'Обратная связь', 'support', 'support', '', 0, ''),
+(5, 'Баннеры', 'banners', 'portfolio', 'banners', 2, ''),
+(6, 'Полиграфия', 'polygraphy', 'portfolio', 'polygraphy', 2, ''),
+(7, 'Логотипы', 'logo', 'portfolio', 'logo', 2, ''),
+(9, 'Верхний баннер', 'top-banner', 'frontpage', 'top-banner', 1, 'admin'),
+(10, 'Клиенты', 'clients', 'frontpage', 'clients', 1, 'admin'),
+(11, 'Настройки сайта', 'settings', 'frontpage', 'settings', 1, 'admin'),
+(12, 'Сделай сам', 'do', 'frontpage', 'do', 0, 'client'),
+(13, 'Файлы', 'files', 'support', 'files', 4, 'admin'),
+(14, 'Контакты', 'contacts', 'support', 'contacts', 4, 'admin'),
+(15, 'Текст', 'text', 'support', 'text', 4, 'admin');
 
 -- --------------------------------------------------------
 
@@ -128,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `price-list` (
   `price` varchar(256) NOT NULL,
   `category` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Дамп данных таблицы `price-list`
@@ -144,7 +146,30 @@ INSERT INTO `price-list` (`id`, `name`, `price`, `category`) VALUES
 (7, 'gif баннер', '3500', 5),
 (8, 'gif баннер (100х100)', '1000', 5),
 (9, 'Промо (флеш)', '10 000 - 12 000', 5),
-(10, 'разработка концепции (идеи)', '2000', 5);
+(10, 'разработка концепции (идеи)', '2000', 5),
+(15, 'мвмсчя', 'ывпа', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `settings`
+--
+
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `login` varchar(256) NOT NULL,
+  `password` varchar(256) NOT NULL,
+  `contacts` text NOT NULL,
+  `files` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `settings`
+--
+
+INSERT INTO `settings` (`id`, `login`, `password`, `contacts`, `files`) VALUES
+(1, 'admin', '32535', 'a:5:{i:0;a:2:{s:7:"caption";s:5:"skype";s:5:"value";s:7:"wvihrev";}i:1;a:2:{s:7:"caption";s:3:"icq";s:5:"value";s:11:"355-133-868";}i:2;a:2:{s:7:"caption";s:3:"tel";s:5:"value";s:15:"+7931 337 48 37";}i:3;a:2:{s:7:"caption";s:4:"mail";s:5:"value";s:17:"wvihrev@gmail.com";}i:4;a:2:{s:7:"caption";s:0:"";s:5:"value";s:0:"";}}', 'a:5:{i:0;a:2:{s:4:"name";s:69:"Бриф на изготовление интернетбаннера";s:4:"file";s:17:"1393182006700.png";}i:1;a:2:{s:4:"name";s:88:"Бриф на изготовление полиграфической продукции";s:4:"file";s:17:"1393182020686.png";}i:2;a:2:{s:4:"name";s:68:"Бриф на изготовлние наружной рекламы";s:4:"file";s:17:"1393182035249.png";}i:3;a:2:{s:4:"name";s:53:"Бриф на изготовлние логотипа";s:4:"file";s:17:"1393182054186.png";}i:4;a:1:{s:4:"name";s:0:"";}}');
 
 -- --------------------------------------------------------
 
@@ -156,19 +181,20 @@ CREATE TABLE IF NOT EXISTS `top-banner` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `file` varchar(256) NOT NULL,
   `background` varchar(256) NOT NULL,
-  `portfolio` int(3) NOT NULL,
+  `url` varchar(256) NOT NULL,
+  `index` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
 -- Дамп данных таблицы `top-banner`
 --
 
-INSERT INTO `top-banner` (`id`, `file`, `background`, `portfolio`) VALUES
-(1, 'banner.jpg', '#000000', 1),
-(2, 'banner.jpg', '#000000', 2),
-(3, 'banner.jpg', '#000000', 3),
-(4, 'banner.jpg', '#000000', 4);
+INSERT INTO `top-banner` (`id`, `file`, `background`, `url`, `index`) VALUES
+(17, '1393095347257.jpg', '#000000', '/portfolio/polygraphy/?id=2 	', 2),
+(15, '1393095283813.jpg', '#000000', '/portfolio/banners/?id=1', 1),
+(18, '1393095364712.jpg', '#000000', '/portfolio/logo/?id=3', 3),
+(19, '1393095386853.jpg', '#000000', '/portfolio/banners/?id=4', 4);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
