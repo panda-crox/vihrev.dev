@@ -58,7 +58,7 @@
 		<div class="clearfix"></div>
 	</section>
 
-
+	<?php if (!$this->isAdmin) : ?>
 	<footer class="b-footer">
 		<div class="b-logo"><img src="/assets/images/logo-2.png"></div>
 		<div class="b-contacts">
@@ -68,6 +68,7 @@
 		</div>
 		<div class="b-name">ДИЗАЙН-СТУДИЯ ВЛАДИМИРА ВИХРЕВА</div>
 	</footer>
+	<?php endif; ?>
 
 	<div class="b-loading">
 		<b class="b-loading__msg">Подождите. Идет загрузка</b>

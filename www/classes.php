@@ -272,7 +272,7 @@
 					$this->redirect($navItem['childs'][0]['url']);
 				}
 				$section = $navItem['section'];
-				$data['settings'] = $this->select("SELECT `id`, `$section` FROM `settings`");
+				$data['settings'] = $this->select($q = "SELECT `id`, $section FROM `settings`");
 				if(!$data['settings'][0][$section]) $data['settings'][0][$section] = array();
 			}
 

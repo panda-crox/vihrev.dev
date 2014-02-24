@@ -23,6 +23,10 @@ i {
 
 a {
   outline: none;
+  color: black;
+}
+a:hover {
+  text-decoration: none;
 }
 
 [type="text"], [type="password"], textarea, select {
@@ -235,7 +239,7 @@ a {
   position: fixed;
   left: 0;
   top: 50px;
-  bottom: 60px;
+  bottom: 0;
   width: 80px;
   visibility: visible;
   opacity: 1;
@@ -1098,7 +1102,7 @@ a {
   right: 0;
   border-width: 20px 50px 0 0;
 }
-.b-support .b-support__clients .b-support__clients__facia div:before, .b-support .b-support__clients .b-support__clients__facia div:after {
+.b-support .b-support__clients .b-support__clients__facia .inner:before, .b-support .b-support__clients .b-support__clients__facia .inner:after {
   content: "";
   position: absolute;
   top: 100%;
@@ -1108,7 +1112,7 @@ a {
   border-width: 10px 0 10px 22px;
   border-color: transparent transparent transparent #8c0f14;
 }
-.b-support .b-support__clients .b-support__clients__facia div:after {
+.b-support .b-support__clients .b-support__clients__facia .inner:after {
   left: auto;
   right: 28px;
   border-width: 10px 22px 10px 0;
@@ -1209,6 +1213,19 @@ a {
 }
 .b-admin-banners .uploader .selected-files {
   width: 300px;
+}
+
+.b-admin-price table {
+  width: 600px;
+}
+.b-admin-price .hidden {
+  display: none;
+}
+.b-admin-price .edit .hidden {
+  display: inline-block;
+}
+.b-admin-price .edit .vis {
+  display: none;
 }
 
 .sort {

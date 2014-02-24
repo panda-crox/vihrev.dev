@@ -16,7 +16,11 @@ body {
 
 h1, h2, h3, h4, h5, b {font-family: "MyriadProBold"; font-weight: normal;}
 i {font-family: "MyriadProItalic"; font-style: normal;}
-a {outline: none;}
+a {
+	outline: none;
+	color: black;
+	&:hover {text-decoration: none;}
+}
 
 
 [type="text"], [type="password"], textarea, select {
@@ -193,7 +197,7 @@ a {outline: none;}
 					position: fixed;
 					left: 0;
 					top: 50px;
-					bottom: 60px;
+					bottom: 0;
 					width: 80px;
 					visibility: visible;
 					opacity: 1;
@@ -873,7 +877,7 @@ a {outline: none;}
 				right: 0;
 				border-width: 20px 50px 0 0;
 			}
-			div:before, div:after {
+			.inner:before, .inner:after {
 				content: "";
 				position: absolute;
 				top: 100%;
@@ -883,7 +887,7 @@ a {outline: none;}
 				border-width: 10px 0 10px 22px;
 				border-color: transparent transparent transparent darken($red, 10%);
 			}
-			div:after {
+			.inner:after {
 				left: auto;
 				right: 28px;
 				border-width: 10px 22px 10px 0;
@@ -978,6 +982,16 @@ a {outline: none;}
 		vertical-align: top;
 		width: 80px;
 		.selected-files {width: 300px;}
+	}
+}
+
+
+.b-admin-price {
+	table {width: 600px;}
+	.hidden {display: none;}
+	.edit {
+		.hidden {display: inline-block;}
+		.vis {display: none;}
 	}
 }
 

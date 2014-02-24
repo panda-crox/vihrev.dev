@@ -1,11 +1,11 @@
-<?php if (isset($GLOBALS['settings'][0]['files'])) : $files = $GLOBALS['settings'][0]['files']; ?>
 <form action="" method="POST" class="b-admin-files">
+<?php if (isset($GLOBALS['settings'][0]['files'])) : $files = $GLOBALS['settings'][0]['files']; ?>
 	<table>
 		<tr><th>ФАЙЛЫ ДЛЯ СКАЧИВАНИЯ</th><th>УДАЛИТЬ</th></tr>
 		<?php if ($files) : foreach ($files as $index => $item) : if (!$item['name'] || !$item['file']) { unset($files[$index]); continue; } ?>
-		<tr data-id="<?php echo $index ?>">
+		<tr data-index="<?php echo $index ?>">
 			<td>
-				<?php echo $item['name'] ?>
+				<a href="/files/<?php echo $item['file'] ?>" target="_blank"><?php echo $item['name'] ?></a>
 				<input type="hidden" name="data[files][<?php echo $index ?>][name]" value="<?php echo $item['name'] ?>">
 				<input type="hidden" name="data[files][<?php echo $index ?>][file]" value="<?php echo $item['file'] ?>">
 			</td>
@@ -23,17 +23,12 @@
 		</tr>
 		<tr><td colspan="2" style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></td></tr>
 	</table>
-	<input type="hidden" name="action" value="update">
-	<input type="hidden" name="table" value="settings">
-	<input type="hidden" name="id" value="<?php echo $GLOBALS['settings'][0]['id'] ?>">
-</form>
 <?php elseif (isset($GLOBALS['settings'][0]['contacts'])) : $contacts = $GLOBALS['settings'][0]['contacts']; ?>
-<form action="" method="POST" class="b-admin-files">
 	<table>
 		<tr><th>КОНТАКТЫ</th><th>УДАЛИТЬ</th></tr>
 		<?php if ($contacts) : foreach ($contacts as $index => $item) : 
 		if (!$item['caption'] || !$item['value']) { unset($contacts[$index]); continue; } ?>
-		<tr data-id="<?php echo $index ?>">
+		<tr data-index="<?php echo $index ?>">
 			<td>
 				<?php echo $item['caption'] . ': ' . $item['value'] ?>
 				<input type="hidden" name="data[contacts][<?php echo $index ?>][caption]" value="<?php echo $item['caption'] ?>">
@@ -54,8 +49,14 @@
 		</tr>
 		<tr><td colspan="2" style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></td></tr>
 	</table>
+<?php elseif (isset($GLOBALS['settings'][0]['about'])) : ?>
+	<table>
+		<tr><td><?php echo $GLOBALS['settings'][0]['about'] ?></td></tr>
+		<tr><td><?php echo $GLOBALS['settings'][0]['strategy'] ?></td></tr>
+		<tr><td><?php echo $GLOBALS['settings'][0]['clients'] ?></td></tr>
+	</table>
+<?php endif; ?>
 	<input type="hidden" name="action" value="update">
 	<input type="hidden" name="table" value="settings">
 	<input type="hidden" name="id" value="<?php echo $GLOBALS['settings'][0]['id'] ?>">
 </form>
-<?php endif; ?>

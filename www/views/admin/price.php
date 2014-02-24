@@ -1,12 +1,16 @@
 <?php if (isset($GLOBALS['price'])) : ?>
 <form action="" method="POST" class="b-admin-price">
 	<table>
-		<tr><th>НАИМЕНОВАНИЕ</th><th>СТОИМОСТЬ</th><th>УДАЛИТЬ</th></tr>
-		<?php foreach ($GLOBALS['price'] as $item) : ?>
-		<tr>
-			<td><?php echo $item['name'] ?></td>
-			<td><?php echo $item['price'] ?> руб.</td>
-			<td style="text-align: center;"><i class="icon-cancel-circled" data-remove='{"id": "<?php echo $item['id'] ?>", "table": "price-list"}'></i></td>
+		<tr><th>НАИМЕНОВАНИЕ</th><th>СТОИМОСТЬ</th><th class="small">УДАЛИТЬ</th></tr>
+		<?php foreach ($GLOBALS['price'] as $index => $item) : ?>
+		<tr data-index="<?php echo $index ?>">
+			<td><span class="vis"><?php echo $item['name'] ?></span><input type="text" name="name" value="<?php echo $item['name'] ?>" required class="hidden"></td>
+			<td><span class="vis"><?php echo $item['price'] ?> руб.</span><input type="text" name="price" value="<?php echo $item['price'] ?>" required class="hidden"></td>
+			<td style="text-align: center;">
+				<i class="icon-menu vis" data-edit="<?php echo $index ?>"></i>
+				<i class="icon-cancel-circled vis" data-remove='{"id": "<?php echo $item['id'] ?>", "table": "price-list"}'></i>
+				<i class="icon-menu hidden" data-update='{"index": "<?php echo $index ?>", "id": "<?php echo $item['id'] ?>", "table": "price-list"}'></i>
+			</td>
 		</tr>
 		<?php endforeach; ?>
 		<tr>

@@ -38,6 +38,21 @@ jQuery(function($) {
     var data = $(this).data('remove');
     data.action = 'remove';
     ajaxPage(data);
+  })
+  .on('click', '[data-update]', function(event) {
+    var attr = $(this).data('update');
+    var data = $('[data-index="'+attr.index+'"] input').serializeArray();
+    data.push({"name": "action", "value": "update"});
+    data.push({"name": "id", "value": attr.id});
+    data.push({"name": "table", "value": attr.table});
+    console.log(data);
+    ajaxPage(data);
+  })
+  .on('click', '[data-edit]', function(event) {
+    $('[data-index="'+$(this).data('edit')+'"]').addClass('edit');
+  })
+  .on('click', '[data-disedit]', function(event) {
+    $('[data-index="'+$(this).data('disedit')+'"]').removeClass('edit');
   });
 
   window.onpopstate = function( e ) {
