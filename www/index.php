@@ -2,6 +2,7 @@
 	mysql_connect('localhost', 'root', '') or die('No connect');
 	mysql_select_db('vihrev');
 	mysql_query("SET CHARSET utf8");
+	//chmod($_SERVER['DOCUMENT_ROOT'] . '/uploaded/', 0777);
 	
 	require_once('classes.php');
 	$vihrev = new Vihrev();
@@ -26,13 +27,16 @@
 	else {
 		if ($_POST) {
 			if ($_POST['action'] == 'insert') {
-				$vihrev->insert($_POST['table'], $_POST['data']);
+				$vihrev->insert($_POST['table'], $_POST['i-data']);
 			}
 			elseif ($_POST['action'] == 'remove') {
 				$vihrev->remove($_POST['table'], $_POST['id']);
 			}
 			elseif ($_POST['action'] == 'update') {
-				$vihrev->update($_POST['table'], $_POST['data'], $_POST['id']);
+				$vihrev->update($_POST['table'], $_POST['u-data'], $_POST['id']);
+			}
+			elseif ($_POST['action'] == 'change-queue') {
+				$vihrev->changeQueue($_POST['table'], $_POST['index'], $_POST['type']);
 			}
 			elseif ($_POST['action'] == 'message') {
 				$vihrev->sendMail();

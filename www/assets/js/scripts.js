@@ -39,13 +39,17 @@ jQuery(function($) {
     data.action = 'remove';
     ajaxPage(data);
   })
+  .on('click', '[data-change-queue]', function(event) {
+    var data = $(this).data('change-queue');
+    data.action = 'change-queue';
+    ajaxPage(data);
+  })
   .on('click', '[data-update]', function(event) {
     var attr = $(this).data('update');
     var data = $('[data-index="'+attr.index+'"] input').serializeArray();
     data.push({"name": "action", "value": "update"});
     data.push({"name": "id", "value": attr.id});
     data.push({"name": "table", "value": attr.table});
-    console.log(data);
     ajaxPage(data);
   })
   .on('click', '[data-edit]', function(event) {
@@ -67,6 +71,7 @@ jQuery(function($) {
 var selectedFiles
     , uploader
     , loadingTimeout
+    , tinymce = tinymce || false
     , onComplete = function(filename, response, uploadBtn) {};
 
 
@@ -111,11 +116,12 @@ function init() {
 
   $('.b-portfolio').css({'min-height': viewportHeight - 40});
   $('.active .b-nav__item__popup').css({'width': subnavWidth});
-  $('.admin .b-content').css({'margin-left': subnavWidth})
+  $('.b-content').css({'margin-left': $('.active .b-nav__item__popup').length ? $('.active .b-nav__item__popup').css('width') : 0})
   $('.b-admin-banners td:first').css({'width': subnavWidth});
 
 
   $('form').trigger('reset');
+  if (tinymce) tinymce.init({selector:'textarea'});
 
 
   selectedFiles = false;

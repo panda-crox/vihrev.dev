@@ -40,13 +40,6 @@ a:hover {
   box-sizing: border-box;
 }
 
-.icon-cancel-circled {
-  font-size: 20px;
-  line-height: 1;
-  color: #ba141a;
-  cursor: pointer;
-}
-
 .btn {
   background: #ba141a;
   display: inline-block;
@@ -85,6 +78,12 @@ a:hover {
   list-style-position: inside;
   font-size: 12px;
   color: #999999;
+  max-width: 100px;
+}
+.uploader .selected-files li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .container {
@@ -327,6 +326,9 @@ a:hover {
 
 .b-section {
   padding: 50px 0 60px;
+}
+.admin .b-section {
+  padding-bottom: 0;
 }
 
 .b-banners {
@@ -583,13 +585,17 @@ a:hover {
 .b-portfolio {
   background: #262626;
   padding: 20px 0 20px 80px;
+  margin-left: -80px;
+}
+.admin .b-portfolio {
+  background: none;
 }
 .b-portfolio .b-portfolio__item {
   float: left;
   width: 33.33%;
   text-align: center;
 }
-.b-portfolio .b-portfolio__item a {
+.b-portfolio .b-portfolio__item .b-portfolio__item__inner {
   display: inline-block;
   margin: 20px 0;
   position: relative;
@@ -597,7 +603,7 @@ a:hover {
   color: white;
   text-align: left;
 }
-.b-portfolio .b-portfolio__item a:hover .b-portfolio__item__popup {
+.b-portfolio .b-portfolio__item .b-portfolio__item__inner:hover .b-portfolio__item__popup {
   visibility: visible;
   opacity: 1;
 }
@@ -1184,6 +1190,16 @@ a:hover {
   text-align: center;
   width: 45px;
 }
+.admin .b-content table td [class^="icon-"], .admin .b-content table th [class^="icon-"] {
+  margin: 0 5px;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: #666666;
+}
+.admin .b-content table td [class^="icon-"].icon-cancel-circled, .admin .b-content table th [class^="icon-"].icon-cancel-circled {
+  color: #ba141a;
+}
 .admin .b-content table td img, .admin .b-content table th img {
   max-height: 100%;
   vertical-align: top;
@@ -1201,18 +1217,17 @@ a:hover {
 .admin .b-content .uploader .btn {
   background: #333333;
 }
-
-.b-admin-banners .b-admin-banners__format {
+.admin .b-content .b-format {
   font-size: 12px;
+  display: inline-block;
+  padding: 5px;
   color: #999999;
 }
+
 .b-admin-banners .uploader {
   display: inline-block;
   vertical-align: top;
   width: 80px;
-}
-.b-admin-banners .uploader .selected-files {
-  width: 300px;
 }
 
 .b-admin-price table {

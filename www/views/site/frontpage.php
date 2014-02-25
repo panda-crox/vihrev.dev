@@ -3,7 +3,17 @@
 	<div class="b-banners__slider">
 		<?php foreach ($GLOBALS['top-banner'] as $item) : ?>
 		<div class="b-slide" style="background: <?php echo $item['background'] ?>">
-			<a href="<?php echo $item['url'] ?>"><img src="/files/<?php echo $item['file'] ?>"></a>
+			<a href="<?php echo $item['url'] ?>">
+				<?php if (preg_match('/(\.(jpg|jpeg|png|gif))$/', $item['file'])) : ?>
+				<img src="/files/<?php echo $item['file'] ?>">
+				<?php elseif (preg_match('/(\.swf)$/', $item['file'])) : ?>
+				<object>
+				  <param name="movie" value="/files/<?php echo $item['file'] ?>">
+				  <param name="quality" value="high">
+					<param name="wmode" value="transparent" />
+				</object>
+				<?php endif; ?>
+			</a>
 		</div>
 		<?php endforeach; ?>
 	</div>

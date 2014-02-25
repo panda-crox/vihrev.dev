@@ -8,6 +8,9 @@
 	<script src="/assets/js/jquery.bxslider.min.js" type="text/javascript"></script>
 	<script src="/assets/js/SimpleAjaxUploader.min.js"></script>
 	<script src="/assets/js/history.min.js" type="text/javascript"></script>
+	<?php if ($this->isAdmin) : ?>
+	<script src="/assets/js/tinymce/tinymce.min.js" type="text/javascript"></script>
+	<?php endif; ?>
 	<script src="/assets/js/scripts.js" type="text/javascript"></script>
 </head>
 
@@ -39,7 +42,7 @@
 				<?php if ($item['module'] == 'price' && $this->isAdmin) : ?>
 				<nav class="b-nav__item__popup">
 					<?php foreach ($GLOBALS['nav'] as $item_) : if($item_['module'] != 'portfolio') continue;
-					foreach ($item_['childs'] as $index => $child) : 
+					foreach ($item_['childs'] as $index => $child) : if($child['section']) continue;
 					?>
 					<a href="/<?php echo $item['url'] ?>?category=<?php echo $child['url_'] ?>"><?php echo $child['caption'] ?></a>
 					<?php endforeach; endforeach; ?>

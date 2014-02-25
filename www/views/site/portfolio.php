@@ -1,7 +1,7 @@
 <div class="b-portfolio">
 	<?php if ($GLOBALS['portfolio']) : foreach ($GLOBALS['portfolio'] as $item) : ?>
 	<div class="b-portfolio__item">
-		<a href="/<?php echo $item['url'] ?>">
+		<a class="b-portfolio__item__inner" href="/<?php echo $item['url'] ?>">
 			<img src="/files/<?php echo $item['preview'] ?>" alt="">
 			<div class="b-portfolio__item__popup">
 				<span class="b-portfolio__item_type"><?php echo $item['category_name'] ?></span>

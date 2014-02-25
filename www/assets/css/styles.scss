@@ -31,14 +31,6 @@ a {
 }
 
 
-.icon-cancel-circled {
-	font-size: 20px;
-	line-height: 1;
-	color: $red;
-	cursor: pointer;
-}
-
-
 .btn {
 	background: $red;
 	display: inline-block;
@@ -74,6 +66,12 @@ a {
 		list-style-position: inside;
 		font-size: 12px;
 		color: #999999;
+		max-width: 100px;
+		li {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 	}
 }
 
@@ -273,6 +271,7 @@ a {
 
 .b-section {
 	padding: 50px 0 60px;
+	.admin & {padding-bottom: 0;}
 }
 
 
@@ -422,11 +421,13 @@ a {
 .b-portfolio {
 	background: darken($gray, 5%);
 	padding: 20px 0 20px 80px;
+	margin-left: -80px;
+	.admin & {background: none;}
 	.b-portfolio__item {
 		float: left;
 		width: 33.33%;
 		text-align: center;
-		a {
+		.b-portfolio__item__inner {
 			display: inline-block;
 			margin: 20px 0;
 			position: relative;
@@ -957,6 +958,16 @@ a {
 				text-align: center;
 				width: 45px;
 			}
+			[class^="icon-"] {
+				margin: 0 5px;
+				font-size: 20px;
+				line-height: 1;
+				cursor: pointer;
+				color: lighten($gray, 20%);
+				&.icon-cancel-circled {
+					color: $red;
+				}
+			}
 			img {max-height: 100%; vertical-align: top;}
 		}
 	}
@@ -969,19 +980,20 @@ a {
 	}
 	button.btn {height: 26px;}
 	.uploader .btn {background: $gray;}
+	.b-format {
+		font-size: 12px;
+		display: inline-block;
+		padding: 5px;
+		color: #999999;
+	}
 }
 
 
 .b-admin-banners {
-	.b-admin-banners__format {
-		font-size: 12px;
-		color: #999999;
-	}
 	.uploader {
 		display: inline-block;
 		vertical-align: top;
 		width: 80px;
-		.selected-files {width: 300px;}
 	}
 }
 

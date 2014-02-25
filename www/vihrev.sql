@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Фев 24 2014 г., 13:51
+-- Время создания: Фев 25 2014 г., 13:59
 -- Версия сервера: 5.1.44
 -- Версия PHP: 5.3.1
 
@@ -29,21 +29,21 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) NOT NULL,
   `file` varchar(256) NOT NULL,
-  `on_frontpage` int(1) NOT NULL DEFAULT '1',
+  `on_frontpage` int(1) NOT NULL,
   `index` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- Дамп данных таблицы `clients`
 --
 
 INSERT INTO `clients` (`id`, `name`, `file`, `on_frontpage`, `index`) VALUES
-(16, 'РОСНЕФТЬ', '1393144800750.png', 1, 0),
-(15, 'TeleTrade', '1393144782370.png', 1, 0),
-(14, 'Canon', '1393144767808.png', 1, 0),
-(12, 'alarmmotors', '1393144731142.png', 1, 0),
-(13, 'INTOUCH', '1393144753272.png', 1, 0);
+(16, 'РОСНЕФТЬ', '1393144800750.png', 1, 3),
+(15, 'TeleTrade', '1393144782370.png', 1, 5),
+(14, 'Canon', '1393144767808.png', 1, 4),
+(12, 'alarmmotors', '1393144731142.png', 1, 1),
+(13, 'INTOUCH', '1393144753272.png', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `navigation` (
   `parent` int(2) NOT NULL COMMENT 'Родительский пункт',
   `side` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
 -- Дамп данных таблицы `navigation`
@@ -71,16 +71,18 @@ INSERT INTO `navigation` (`id`, `caption`, `url`, `module`, `section`, `parent`,
 (2, 'Портфолио', 'portfolio', 'portfolio', '', 0, ''),
 (3, 'Стоимость услуг', 'price', 'price', '', 0, ''),
 (4, 'Обратная связь', 'support', 'support', '', 0, ''),
-(5, 'Баннеры', 'banners', 'portfolio', 'banners', 2, ''),
-(6, 'Полиграфия', 'polygraphy', 'portfolio', 'polygraphy', 2, ''),
-(7, 'Логотипы', 'logo', 'portfolio', 'logo', 2, ''),
+(5, 'Баннеры', 'banners', 'portfolio', '', 2, ''),
+(6, 'Полиграфия', 'polygraphy', 'portfolio', '', 2, ''),
+(7, 'Логотипы', 'logo', 'portfolio', '', 2, ''),
 (9, 'Верхний баннер', 'top-banner', 'frontpage', 'top-banner', 1, 'admin'),
 (10, 'Клиенты', 'clients', 'frontpage', 'clients', 1, 'admin'),
 (11, 'Настройки сайта', 'settings', 'frontpage', 'settings', 1, 'admin'),
 (12, 'Сделай сам', 'do', 'frontpage', 'do', 0, 'client'),
 (13, 'Файлы', 'files', 'support', 'files', 4, 'admin'),
 (14, 'Контакты', 'contacts', 'support', 'contacts', 4, 'admin'),
-(15, 'Текст', 'text', 'support', 'about,strategy,clients', 4, 'admin');
+(15, 'Текст', 'text', 'support', 'about,strategy,clients', 4, 'admin'),
+(16, 'Добавить работу', '?add', 'portfolio', 'add', 2, 'admin'),
+(17, 'Разделы', '?branches', 'portfolio', 'branches', 2, 'admin');
 
 -- --------------------------------------------------------
 
@@ -129,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `price-list` (
   `price` varchar(256) NOT NULL,
   `category` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Дамп данных таблицы `price-list`
@@ -162,6 +164,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `about` text NOT NULL,
   `strategy` text NOT NULL,
   `clients` text NOT NULL,
+  `index` int(3) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -169,8 +172,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- Дамп данных таблицы `settings`
 --
 
-INSERT INTO `settings` (`id`, `login`, `password`, `contacts`, `files`, `about`, `strategy`, `clients`) VALUES
-(1, 'admin', '32535', 'a:5:{i:0;a:2:{s:7:"caption";s:5:"skype";s:5:"value";s:7:"wvihrev";}i:1;a:2:{s:7:"caption";s:3:"icq";s:5:"value";s:11:"355-133-868";}i:2;a:2:{s:7:"caption";s:3:"tel";s:5:"value";s:15:"+7931 337 48 37";}i:3;a:2:{s:7:"caption";s:4:"mail";s:5:"value";s:17:"wvihrev@gmail.com";}i:4;a:2:{s:7:"caption";s:0:"";s:5:"value";s:0:"";}}', 'a:5:{i:0;a:2:{s:4:"name";s:69:"Бриф на изготовление интернетбаннера";s:4:"file";s:17:"1393182006700.png";}i:1;a:2:{s:4:"name";s:88:"Бриф на изготовление полиграфической продукции";s:4:"file";s:17:"1393182020686.png";}i:2;a:2:{s:4:"name";s:68:"Бриф на изготовлние наружной рекламы";s:4:"file";s:17:"1393182035249.png";}i:3;a:2:{s:4:"name";s:53:"Бриф на изготовлние логотипа";s:4:"file";s:17:"1393182054186.png";}i:4;a:1:{s:4:"name";s:0:"";}}', '<p>Развивающаяся компания в сфере Интернет-рекламы, которая специализируется на создании флеш-баннеров. Главная цель - создание привлекательного и стильного рекламного продукта, отвечающего всем требованиям современной рекламной индустрии.</p>\r\n				<p><b>Интересные факты</b><br>В современном мире, где многое зависит от финансов, для проведения рекламной кампании флеш баннер является одним из самых недорогих, но достаточно продуктивных способов раскрутки.</p>\r\n				<p>Стоимость флеш баннера может варьироваться и вы всегда можете выбрать именно то, что нужно вам. Ну а мы, в свою очередь, с удовольствием возьмемся за исполнение ваших самых креативных идей и замыслов! Так как мы стремимся к качеству и совершенству каждого рекламного продукта, выпускаемого студией. Заказать флеш баннер</p>', '<p><b>Цель</b><br>Наша основная задача достижение максимального результата, никогда не останавливаться на достигнутом и постоянно совершенствоваться в сфере интернет рекламы и дизайна.</p>\r\n				<p><b>Методы</b><br>Основой лучшей реализации рекламы является ясное донесение информации рекламного продукта. От креатива к реализации.</p>', 'Мы работаем вместе с этими брендами и выработали стратегию наряду с уникальным подходом. Мы процветаем и сотрудничаем с клиентами, которые хотят расширить границы и мыслить нестандартно.');
+INSERT INTO `settings` (`id`, `login`, `password`, `contacts`, `files`, `about`, `strategy`, `clients`, `index`) VALUES
+(1, 'admin', '32535', 'a:5:{i:0;a:2:{s:7:"caption";s:5:"skype";s:5:"value";s:7:"wvihrev";}i:1;a:2:{s:7:"caption";s:3:"icq";s:5:"value";s:11:"355-133-868";}i:2;a:2:{s:7:"caption";s:3:"tel";s:5:"value";s:15:"+7931 337 48 37";}i:3;a:2:{s:7:"caption";s:4:"mail";s:5:"value";s:17:"wvihrev@gmail.com";}i:4;a:2:{s:7:"caption";s:0:"";s:5:"value";s:0:"";}}', 'a:5:{i:0;a:2:{s:4:"name";s:69:"Бриф на изготовление интернетбаннера";s:4:"file";s:17:"1393182006700.png";}i:1;a:2:{s:4:"name";s:88:"Бриф на изготовление полиграфической продукции";s:4:"file";s:17:"1393182020686.png";}i:2;a:2:{s:4:"name";s:68:"Бриф на изготовлние наружной рекламы";s:4:"file";s:17:"1393182035249.png";}i:3;a:2:{s:4:"name";s:53:"Бриф на изготовлние логотипа";s:4:"file";s:17:"1393182054186.png";}i:4;a:1:{s:4:"name";s:0:"";}}', '<p>Развивающаяся компания в сфере Интернет-рекламы, которая специализируется на создании флеш-баннеров. Главная цель - создание привлекательного и стильного рекламного продукта, отвечающего всем требованиям современной рекламной индустрии.</p>\r\n<p><strong>Интересные факты</strong><br />В современном мире, где многое зависит от финансов, для проведения рекламной кампании флеш баннер является одним из самых недорогих, но достаточно продуктивных способов раскрутки.</p>\r\n<p>Стоимость флеш баннера может варьироваться и вы всегда можете выбрать именно то, что нужно вам. Ну а мы, в свою очередь, с удовольствием возьмемся за исполнение ваших самых креативных идей и замыслов! Так как мы стремимся к качеству и совершенству каждого рекламного продукта, выпускаемого студией. Заказать флеш баннер</p>', '<p><strong>Цель</strong><br />Наша основная задача достижение максимального результата, никогда не останавливаться на достигнутом и постоянно совершенствоваться в сфере интернет рекламы и дизайна.</p>\r\n<p><strong>Методы</strong><br />Основой лучшей реализации рекламы является ясное донесение информации рекламного продукта. От креатива к реализации.</p>', '<p>Мы работаем вместе с этими брендами и выработали стратегию наряду с уникальным подходом. Мы процветаем и сотрудничаем с клиентами, которые хотят расширить границы и мыслить нестандартно.</p>', 0);
 
 -- --------------------------------------------------------
 
@@ -185,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `top-banner` (
   `url` varchar(256) NOT NULL,
   `index` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 --
 -- Дамп данных таблицы `top-banner`

@@ -165,13 +165,16 @@
 
 		public function frontpage()
 		{
+			if ($_GET) {
+				$this->get404();
+			}
 			$data = array();
 
 			if (!$this->isAdmin) {
-				$data['top-banner'] = $this->select("SELECT * FROM `top-banner`");
+				$data['top-banner'] = $this->select("SELECT * FROM `top-banner` ORDER BY `index` ASC");
 				$data['previews'] = $this->select("SELECT `portfolio`.*, `navigation`.`caption` AS `category_name` FROM `portfolio`
-															LEFT JOIN `navigation` ON `navigation`.`id`=`portfolio`.`category` WHERE `on_frontpage`=1");
-				$data['clients'] = $this->select("SELECT * FROM `clients` WHERE `on_frontpage`=1");
+																					LEFT JOIN `navigation` ON `navigation`.`id`=`portfolio`.`category` WHERE `on_frontpage`=1");
+				$data['clients'] = $this->select("SELECT * FROM `clients` WHERE `on_frontpage`=1 ORDER BY `index` ASC");
 
 				foreach ($data['previews'] as $key => $item) {
 					$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
@@ -184,7 +187,7 @@
 					$this->redirect($navItem['childs'][0]['url']);
 				}
 				$table = $navItem['section'];
-				$data[$table] = $this->select("SELECT * FROM `$table`");
+				$data[$table] = $this->select("SELECT * FROM `$table` ORDER BY `index` ASC");
 			}
 
 			$this->render('frontpage.php', $data);
@@ -193,6 +196,9 @@
 
 		public function portfolio()
 		{
+			if ($_GET && (count($_GET) > 1 || !isset($_GET['id']))) {
+				$this->get404();
+			}
 			$requestPath = explode('/', $this->requestPath);
 			$data = array();
 			$condition = "";
@@ -244,9 +250,15 @@
 
 		public function price()
 		{
+			if ($_GET && (count($_GET) > 1 || !isset($_GET['category']))) {
+				$this->get404();
+			}
 			$data = array();
 			if ($_GET['category']) {
 				$navItem = $this->getNavItem($this->nav, 'url_', $_GET['category']);
+				if (!$navItem) {
+					$this->get404();
+				}
 			}
 			else {
 				$navItemParent = $this->getNavItem($this->nav, 'module', 'portfolio');
@@ -262,6 +274,9 @@
 
 		public function support()
 		{
+			if ($_GET) {
+				$this->get404();
+			}
 			$data = array();
 			if (!$this->isAdmin) {
 				$data['clients'] = $this->select("SELECT * FROM `clients`");
@@ -390,7 +405,7 @@
 		public function remove($table, $id)
 		{
 			$query = mysql_query("SELECT * FROM `$table` WHERE `id`=$id");
-			$item = mysql_fetch_array($query);
+			$item = mysql_fetch_assoc($query);
 			$query = mysql_query("DELETE FROM `$table` WHERE `id`=$id");
 
 			$files = $item['files'] ? unserialize($item['files']) : $item['file'] ? array($item['file']) : false;
@@ -399,6 +414,17 @@
 					@unlink($_SERVER['DOCUMENT_ROOT'] . '/files/' . $item['file']);
 				}
 			}
+		}
+
+
+		public function changeQueue($table, $index, $type)
+		{
+			$symbol = $type == 'up' ? "<" : ">";
+			$order = $type == 'up' ? "DESC" : "ASC";
+			$query = mysql_query("SELECT * FROM `$table` WHERE `index` $symbol $index ORDER BY `index` $order LIMIT 1");
+			$item = mysql_fetch_assoc($query);
+			$query = mysql_query("UPDATE `$table` SET `index`={$item['index']} WHERE `index`=$index");
+			$query = mysql_query("UPDATE `$table` SET `index`=$index WHERE `id`={$item['id']}");
 		}
 	}
 ?>
