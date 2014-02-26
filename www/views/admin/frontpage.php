@@ -37,7 +37,7 @@
 				<?php if (preg_match('/(\.(jpg|jpeg|png|gif))$/', $item['file'])) : ?>
 				<img src="/files/<?php echo $item['file'] ?>">
 				<?php elseif (preg_match('/(\.swf)$/', $item['file'])) : ?>
-				<object>
+				<object type="application/x-shockwave-flash" data="/files/<?php echo $item['file'] ?>" width="100%" height="100%">
 				  <param name="movie" value="/files/<?php echo $item['file'] ?>">
 				  <param name="quality" value="high">
 					<param name="wmode" value="transparent" />
@@ -70,7 +70,7 @@
 				<span class="ctrl-down" data-change-queue='{"type": "down", "index": "<?php echo $item['index'] ?>", "table": "clients"}'></span>
 				<?php endif; ?>
 			</span></td>
-			<td><img src="/files/<?php echo $item['file'] ?>"></td>
+			<td style="text-align: center;"><img src="/files/<?php echo $item['file'] ?>"></td>
 			<td><?php echo $item['name'] ?></td>
 			<td style="text-align: center;"><?php echo $item['on_frontpage'] ?></td>
 			<td class="small"><i class="icon-cancel-circled" data-remove='{"id": "<?php echo $item['id'] ?>", "table": "clients"}'></i></td>
@@ -96,12 +96,12 @@
 <?php elseif (isset($GLOBALS['settings'])) : ?>
 <form action="" method="POST" class="b-admin-settings">
 	<table>
-		<tr><td>ЛОГИН</td><td><input type="text" name="u-data[login]" value="<?php echo $GLOBALS['settings'][0]['login'] ?>" required></td></tr>
-		<tr><td>ПАРОЛЬ</td><td><input type="password" name="u-data[password]" value="<?php echo $GLOBALS['settings'][0]['password'] ?>" required></td></tr>
+		<tr><td>ЛОГИН</td><td><input type="text" name="u-data[login]" value="<?php echo $GLOBALS['settings']['login'] ?>" required></td></tr>
+		<tr><td>ПАРОЛЬ</td><td><input type="password" name="u-data[password]" value="<?php echo $GLOBALS['settings']['password'] ?>" required></td></tr>
 		<tr><td colspan="2" style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></td></tr>
 	</table>
 	<input type="hidden" name="action" value="update">
 	<input type="hidden" name="table" value="settings">
-	<input type="hidden" name="id" value="<?php echo $GLOBALS['settings'][0]['id'] ?>">
+	<input type="hidden" name="id" value="<?php echo $GLOBALS['settings']['id'] ?>">
 </form>
 <?php endif; ?>

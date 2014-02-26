@@ -1,5 +1,5 @@
 <form action="" method="POST" class="b-admin-support">
-<?php if (isset($GLOBALS['settings'][0]['files'])) : $files = $GLOBALS['settings'][0]['files']; ?>
+<?php if (isset($GLOBALS['settings']['files'])) : $files = $GLOBALS['settings']['files']; ?>
 	<table>
 		<tr><th>ФАЙЛЫ ДЛЯ СКАЧИВАНИЯ</th><th>УДАЛИТЬ</th></tr>
 		<?php if ($files) : foreach ($files as $index => $item) : if (!$item['name'] || !$item['file']) { unset($files[$index]); continue; } ?>
@@ -23,7 +23,7 @@
 		</tr>
 		<tr><td colspan="2" style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></td></tr>
 	</table>
-<?php elseif (isset($GLOBALS['settings'][0]['contacts'])) : $contacts = $GLOBALS['settings'][0]['contacts']; ?>
+<?php elseif (isset($GLOBALS['settings']['contacts'])) : $contacts = $GLOBALS['settings']['contacts']; ?>
 	<table>
 		<tr><th>КОНТАКТЫ</th><th>УДАЛИТЬ</th></tr>
 		<?php if ($contacts) : foreach ($contacts as $index => $item) : 
@@ -49,18 +49,18 @@
 		</tr>
 		<tr><td colspan="2" style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></td></tr>
 	</table>
-<?php elseif (isset($GLOBALS['settings'][0]['about'])) : ?>
+<?php elseif (isset($GLOBALS['settings']['about'])) : ?>
 	<div style="max-width: 600px; margin-left: 20px;">
 		<h3>О НАС</h3>
-		<textarea name="u-data[about]"><?php echo $GLOBALS['settings'][0]['about'] ?></textarea>
+		<textarea name="u-data[about]"><?php echo $GLOBALS['settings']['about'] ?></textarea>
 		<h3>СТРАТЕГИЯ</h3>
-		<textarea name="u-data[strategy]"><?php echo $GLOBALS['settings'][0]['strategy'] ?></textarea>
+		<textarea name="u-data[strategy]"><?php echo $GLOBALS['settings']['strategy'] ?></textarea>
 		<h3>КЛИЕНТЫ И БРЕНДЫ</h3>
-		<textarea name="u-data[clients]"><?php echo $GLOBALS['settings'][0]['clients'] ?></textarea>
+		<textarea name="u-data[clients]"><?php echo $GLOBALS['settings']['clients'] ?></textarea>
 		<p style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></p>
 	</div>
 <?php endif; ?>
 	<input type="hidden" name="action" value="update">
 	<input type="hidden" name="table" value="settings">
-	<input type="hidden" name="id" value="<?php echo $GLOBALS['settings'][0]['id'] ?>">
+	<input type="hidden" name="id" value="<?php echo $GLOBALS['settings']['id'] ?>">
 </form>

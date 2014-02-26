@@ -37,12 +37,15 @@
 					<?php foreach ($item['childs'] as $child) : ?>
 					<a href="/<?php echo $child['url'] ?>"><?php echo $child['caption'] ?></a>
 					<?php endforeach; ?>
+					<?php if ($item['module'] == 'portfolio' && $this->isAdmin) : ?>
+					<a href="?add">Добавить работу</a>
+					<a href="?branches">Разделы</a>
+					<?php endif; ?>
 				</nav>
-				<?php endif; ?>
-				<?php if ($item['module'] == 'price' && $this->isAdmin) : ?>
+				<?php elseif ($item['module'] == 'price' && $this->isAdmin) : ?>
 				<nav class="b-nav__item__popup">
 					<?php foreach ($GLOBALS['nav'] as $item_) : if($item_['module'] != 'portfolio') continue;
-					foreach ($item_['childs'] as $index => $child) : if($child['section']) continue;
+					foreach ($item_['childs'] as $index => $child) :
 					?>
 					<a href="/<?php echo $item['url'] ?>?category=<?php echo $child['url_'] ?>"><?php echo $child['caption'] ?></a>
 					<?php endforeach; endforeach; ?>

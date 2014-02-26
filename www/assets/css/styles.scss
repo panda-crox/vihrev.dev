@@ -986,6 +986,11 @@ a {
 		padding: 5px;
 		color: #999999;
 	}
+	.hidden {display: none;}
+	.edit {
+		.hidden {display: inline-block;}
+		.vis {display: none;}
+	}
 }
 
 
@@ -1000,11 +1005,6 @@ a {
 
 .b-admin-price {
 	table {width: 600px;}
-	.hidden {display: none;}
-	.edit {
-		.hidden {display: inline-block;}
-		.vis {display: none;}
-	}
 }
 
 

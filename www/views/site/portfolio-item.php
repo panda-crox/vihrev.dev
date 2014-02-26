@@ -39,11 +39,11 @@
 
 <div class="b-pager">
 	<div class="container">
-		<?php if ($GLOBALS['portfolio-item']['prev']) : ?>
-		<a href="/<?php echo $GLOBALS['portfolio-item']['prev']['url'] ?>" class="b-pager__prev">&lt;&lt; <i><?php echo $GLOBALS['portfolio-item']['prev']['name'] ?></i></a>
+		<?php if ($GLOBALS['portfolio-item']['prev_id']) : ?>
+		<a href="/<?php echo $GLOBALS['portfolio-item']['prev_url'] ?>" class="b-pager__prev">&lt;&lt; <i><?php echo $GLOBALS['portfolio-item']['prev_name'] ?></i></a>
 		<?php endif; ?>
-		<?php if ($GLOBALS['portfolio-item']['next']) : ?>
-		<a href="/<?php echo $GLOBALS['portfolio-item']['next']['url'] ?>" class="b-pager__next"><i><?php echo $GLOBALS['portfolio-item']['next']['name'] ?></i> &gt;&gt;</a>
+		<?php if ($GLOBALS['portfolio-item']['next_id']) : ?>
+		<a href="/<?php echo $GLOBALS['portfolio-item']['next_url'] ?>" class="b-pager__next"><i><?php echo $GLOBALS['portfolio-item']['next_name'] ?></i> &gt;&gt;</a>
 		<?php endif; ?>
 	</div>
 	<div class="clearfix"></div>

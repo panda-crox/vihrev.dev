@@ -196,53 +196,49 @@
 
 		public function portfolio()
 		{
-			if ($_GET && (count($_GET) > 1 || !isset($_GET['id']))) {
+			if ($_GET && (count($_GET) > 1 || (!isset($_GET['id']) && !isset($_GET['add']) && !isset($_GET['branches'])))) {
 				$this->get404();
 			}
 			$requestPath = explode('/', $this->requestPath);
 			$data = array();
 			$condition = "";
 			if (count($requestPath) > 1) {
-				$condition .= "WHERE `portfolio`.`category`=(SELECT `id` FROM `navigation` WHERE `url`='{$requestPath[1]}') ";
+				$condition .= "WHERE `t1`.`category`=(SELECT `id` FROM `navigation` WHERE `url`='{$requestPath[1]}') ";
 
 			}
-			if ($_GET['id']) {
-				$condition .= "AND `portfolio`.`id`={$_GET['id']}";
-			}
-
-			$query = mysql_query("SELECT `portfolio`.*, `navigation`.`caption` AS `category_name` FROM `portfolio`
-														LEFT JOIN `navigation` ON `navigation`.`id`=`portfolio`.`category` $condition");
 
 			if ($_GET['id']) {
-				if (!mysql_num_rows($query)) {
+				$condition .= "AND `t1`.`id`={$_GET['id']}";
+				$item = $this->select("SELECT `t1`.*, `prev`.`id` AS `prev_id`, `prev`.`name` AS `prev_name`, `prev`.`category` AS `prev_category`,
+															`next`.`id` AS `next_id`, `next`.`name` AS `next_name`, `next`.`category` AS `next_category` FROM `portfolio` AS `t1`
+															LEFT JOIN `portfolio` AS `prev` ON `prev`.`id`=(SELECT `id` FROM `portfolio` WHERE `id`<{$_GET['id']} ORDER BY `id` DESC LIMIT 1)
+															LEFT JOIN `portfolio` AS `next` ON `next`.`id`=(SELECT `id` FROM `portfolio` WHERE `id`>{$_GET['id']} ORDER BY `id` ASC LIMIT 1)
+															$condition GROUP BY 1 LIMIT 1");
+				if (!$item) {
 					$this->get404();
 				}
-				$item = mysql_fetch_assoc($query);
 
-				$query = mysql_query("SELECT * FROM `portfolio` WHERE `id`<{$item['id']} ORDER BY `id` DESC LIMIT 1");
-				if (mysql_num_rows($query)) {
-					$item['prev'] = mysql_fetch_assoc($query);
-					$navItem = $this->getNavItem($this->nav, 'id', $item['prev']['category']);
-					$item['prev']['url'] = $navItem['url'] . '/?id=' . $item['prev']['id'];
+				if ($item['prev_id']) {
+					$navItem = $this->getNavItem($this->nav, 'id', $item['prev_category']);
+					$item['prev_url'] = $navItem['url'] . '/?id=' . $item['prev_id'];
 				}
 
-				$query = mysql_query("SELECT * FROM `portfolio` WHERE `id`>{$item['id']} ORDER BY `id` ASC LIMIT 1");
-				if (mysql_num_rows($query)) {
-					$item['next'] = mysql_fetch_assoc($query);
-					$navItem = $this->getNavItem($this->nav, 'id', $item['next']['category']);
-					$item['next']['url'] = $navItem['url'] . '/?id=' . $item['next']['id'];
+				if ($item['next_id']) {
+					$navItem = $this->getNavItem($this->nav, 'id', $item['next_category']);
+					$item['next_url'] = $navItem['url'] . '/?id=' . $item['next_id'];
 				}
 
 				$data['portfolio-item'] = $item;
 				$this->render('portfolio-item.php', $data);
 			}
 			else {
-				$data['portfolio'] = array();
-				while ($item = mysql_fetch_assoc($query)) {
+				$data['portfolio'] = $this->select("SELECT `t1`.*, `t2`.`caption` AS `category_name` FROM `portfolio` AS `t1`
+																					LEFT JOIN `navigation` AS `t2` ON `t2`.`id`=`t1`.`category` $condition");
+				foreach ($data['portfolio'] as $key => $item) {
 					$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
-					$item['url'] = $navItem['url'] . '/?id=' . $item['id'];
-					$data['portfolio'][] = $item;
+					$data['portfolio'][$key]['url'] = $navItem['url'] . '/?id=' . $item['id'];
 				}
+				
 				$this->render('portfolio.php', $data);
 			}
 		}
@@ -354,12 +350,18 @@
 		{
 			$data = array();
 			$query = mysql_query($query);
-			if (mysql_num_rows($query)) {
+			if (mysql_num_rows($query) > 1) {
 				while ($item = mysql_fetch_assoc($query)) {
 					foreach ($item as $key => $value) {
 						$item[$key] = ($v = unserialize($value)) ? $v : $value;
 					}
 					$data[] = $item;
+				}
+			}
+			else if (mysql_num_rows($query) == 1) {
+				$data = mysql_fetch_assoc($query);
+				foreach ($data as $key => $value) {
+					$data[$key] = ($v = unserialize($value)) ? $v : $value;
 				}
 			}
 			return $data;

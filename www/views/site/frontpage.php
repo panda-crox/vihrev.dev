@@ -1,19 +1,21 @@
 <?php if ($GLOBALS['top-banner']) : ?>
 <div class="b-banners">
 	<div class="b-banners__slider">
-		<?php foreach ($GLOBALS['top-banner'] as $item) : ?>
+		<?php foreach ($GLOBALS['top-banner'] as $item) : $fileParams = getimagesize($_SERVER['DOCUMENT_ROOT'] . '/files/' . $item['file']); ?>
 		<div class="b-slide" style="background: <?php echo $item['background'] ?>">
-			<a href="<?php echo $item['url'] ?>">
-				<?php if (preg_match('/(\.(jpg|jpeg|png|gif))$/', $item['file'])) : ?>
-				<img src="/files/<?php echo $item['file'] ?>">
-				<?php elseif (preg_match('/(\.swf)$/', $item['file'])) : ?>
-				<object>
-				  <param name="movie" value="/files/<?php echo $item['file'] ?>">
-				  <param name="quality" value="high">
-					<param name="wmode" value="transparent" />
-				</object>
-				<?php endif; ?>
-			</a>
+			<div class="container">
+				<a href="<?php echo $item['url'] ?>">
+					<?php if (preg_match('/(\.(jpg|jpeg|png|gif))$/', $item['file'])) : ?>
+					<img src="/files/<?php echo $item['file'] ?>">
+					<?php elseif (preg_match('/(\.swf)$/', $item['file'])) : ?>
+					<object type="application/x-shockwave-flash" data="/files/<?php echo $item['file'] ?>" width="100%" height="300">
+					  <param name="movie" value="/files/<?php echo $item['file'] ?>">
+					  <param name="quality" value="high">
+						<param name="wmode" value="transparent" />
+					</object>
+					<?php endif; ?>
+				</a>
+			</div>
 		</div>
 		<?php endforeach; ?>
 	</div>
