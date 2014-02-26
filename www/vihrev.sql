@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 3.2.4
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
--- Хост: localhost
--- Время создания: Фев 25 2014 г., 13:59
--- Версия сервера: 5.1.44
--- Версия PHP: 5.3.1
+-- Хост: 127.0.0.1
+-- Время создания: Фев 26 2014 г., 23:35
+-- Версия сервера: 5.5.25
+-- Версия PHP: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -32,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `on_frontpage` int(1) NOT NULL,
   `index` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 --
 -- Дамп данных таблицы `clients`
@@ -60,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `navigation` (
   `parent` int(2) NOT NULL COMMENT 'Родительский пункт',
   `side` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Дамп данных таблицы `navigation`
@@ -80,9 +81,7 @@ INSERT INTO `navigation` (`id`, `caption`, `url`, `module`, `section`, `parent`,
 (12, 'Сделай сам', 'do', 'frontpage', 'do', 0, 'client'),
 (13, 'Файлы', 'files', 'support', 'files', 4, 'admin'),
 (14, 'Контакты', 'contacts', 'support', 'contacts', 4, 'admin'),
-(15, 'Текст', 'text', 'support', 'about,strategy,clients', 4, 'admin'),
-(16, 'Добавить работу', '?add', 'portfolio', 'add', 2, 'admin'),
-(17, 'Разделы', '?branches', 'portfolio', 'branches', 2, 'admin');
+(15, 'Текст', 'text', 'support', 'about,strategy,clients', 4, 'admin');
 
 -- --------------------------------------------------------
 
@@ -103,21 +102,22 @@ CREATE TABLE IF NOT EXISTS `portfolio` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `category` int(3) NOT NULL,
   `on_frontpage` int(1) NOT NULL,
+  `index` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Дамп данных таблицы `portfolio`
 --
 
-INSERT INTO `portfolio` (`id`, `name`, `introtext`, `text`, `preview`, `flash`, `gif`, `jpg_png`, `html`, `date`, `category`, `on_frontpage`) VALUES
-(1, 'РосТрансАвиа', 'РосТрансАвиа', 'РосТрансАвиа', 'preview-1.jpg', '', '', '', '', '2014-02-16 12:40:07', 5, 1),
-(2, 'Форекс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-2.jpg', '', '', '', '', '2014-02-16 12:41:07', 6, 1),
-(3, 'Canon', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-3.jpg', '', '', '', '', '2014-02-16 12:41:28', 7, 1),
-(4, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 12:41:50', 5, 1),
-(5, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 12:41:54', 6, 1),
-(6, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 12:41:56', 7, 1),
-(7, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 12:41:57', 5, 1);
+INSERT INTO `portfolio` (`id`, `name`, `introtext`, `text`, `preview`, `flash`, `gif`, `jpg_png`, `html`, `date`, `category`, `on_frontpage`, `index`) VALUES
+(1, 'РосТрансАвиа', 'РосТрансАвиа', 'РосТрансАвиа', 'preview-1.jpg', '', '', '', '', '2014-02-16 08:40:07', 5, 1, 1),
+(2, 'Форекс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-2.jpg', '', '', '', '', '2014-02-16 08:41:07', 6, 1, 5),
+(3, 'Canon', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-3.jpg', '', '', '', '', '2014-02-16 08:41:28', 7, 1, 3),
+(4, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 08:41:50', 5, 1, 2),
+(5, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 08:41:54', 6, 1, 4),
+(6, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 08:41:56', 7, 1, 6),
+(7, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 08:41:57', 5, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `top-banner` (
   `url` varchar(256) NOT NULL,
   `index` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
 --
 -- Дамп данных таблицы `top-banner`
@@ -199,3 +199,7 @@ INSERT INTO `top-banner` (`id`, `file`, `background`, `url`, `index`) VALUES
 (15, '1393095283813.jpg', '#000000', '/portfolio/banners/?id=1', 1),
 (18, '1393095364712.jpg', '#000000', '/portfolio/logo/?id=3', 3),
 (19, '1393095386853.jpg', '#000000', '/portfolio/banners/?id=4', 4);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -232,12 +232,21 @@
 				$this->render('portfolio-item.php', $data);
 			}
 			else {
-				$data['portfolio'] = $this->select("SELECT `t1`.*, `t2`.`caption` AS `category_name` FROM `portfolio` AS `t1`
-																					LEFT JOIN `navigation` AS `t2` ON `t2`.`id`=`t1`.`category` $condition");
-				foreach ($data['portfolio'] as $key => $item) {
-					$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
-					$data['portfolio'][$key]['url'] = $navItem['url'] . '/?id=' . $item['id'];
+				if (isset($_GET['branches']) && $_POST) {
+					echo json_encode(array('json' => true, 'updatePage' => true));
+					die();
 				}
+				elseif (isset($_GET['add']) && $_POST) {
+					$this->redirect($requestPath[0]);
+				}
+				else {
+					$data['portfolio'] = $this->select("SELECT `t1`.*, `t2`.`caption` AS `category_name` FROM `portfolio` AS `t1`
+																					LEFT JOIN `navigation` AS `t2` ON `t2`.`id`=`t1`.`category` $condition ORDER BY `index` ASC");
+					foreach ($data['portfolio'] as $key => $item) {
+						$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
+						$data['portfolio'][$key]['url'] = $navItem['url'] . '/?id=' . $item['id'];
+					}
+				}				
 				
 				$this->render('portfolio.php', $data);
 			}
@@ -371,12 +380,6 @@
 		public function insert($table, $data)
 		{
 			$keys = ''; $values = '';
-			$files = $data['files'] ? $data['files'] : $data['file'] ? array($data['file']) : false;
-			if ($files) {
-				foreach ($files as $file) {
-					@rename($_SERVER['DOCUMENT_ROOT'] . '/uploaded/' . $file, $_SERVER['DOCUMENT_ROOT'] . '/files/' . $file);
-				}
-			}
 			foreach ($data as $key => $value) {
 				if (is_array($value)) $value = serialize($value);
 				$keys .= $keys ? ",`$key`" : "`$key`";
@@ -389,13 +392,6 @@
 		public function update($table, $data, $id)
 		{
 			$keysValues = '';
-			$files = $data['files'] ? $data['files'] : ($data['file'] ? array($data['file']) : false);
-			if ($files) {
-				foreach ($files as $file) {
-					if (is_array($file)) $file = $file['file'];
-					@rename($_SERVER['DOCUMENT_ROOT'] . '/uploaded/' . $file, $_SERVER['DOCUMENT_ROOT'] . '/files/' . $file);
-				}
-			}
 			foreach ($data as $key => $value) {
 				if (is_array($value)) $value = serialize($value);
 				$keysValues .= $keysValues ? ",`$key`='$value'" : "`$key`='$value'";

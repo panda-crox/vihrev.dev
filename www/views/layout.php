@@ -38,8 +38,8 @@
 					<a href="/<?php echo $child['url'] ?>"><?php echo $child['caption'] ?></a>
 					<?php endforeach; ?>
 					<?php if ($item['module'] == 'portfolio' && $this->isAdmin) : ?>
-					<a href="?add">Добавить работу</a>
-					<a href="?branches">Разделы</a>
+					<a href="/<?php echo $item['url'] ?>?add">Добавить работу</a>
+					<a href="/<?php echo $item['url'] ?>?branches">Разделы</a>
 					<?php endif; ?>
 				</nav>
 				<?php elseif ($item['module'] == 'price' && $this->isAdmin) : ?>

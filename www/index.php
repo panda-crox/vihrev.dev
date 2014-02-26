@@ -16,7 +16,7 @@
 
 		$uploader = new FileUpload('file');
 		$uploader->newFileName = time() . rand(100, 999) . '.' . strtolower($uploader->getExtension());
-		$result = $uploader->handleUpload($_SERVER['DOCUMENT_ROOT'] . '/uploaded/');
+		$result = $uploader->handleUpload($_SERVER['DOCUMENT_ROOT'] . ($vihrev->isAdmin ? '/files/' : '/uploaded/'));
 
 		if (!$result) {
 			echo json_encode(array('success' => false, 'msg' => $uploader->getErrorMsg()));

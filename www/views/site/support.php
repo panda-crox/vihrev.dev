@@ -16,7 +16,7 @@
 			<div class="note">* Звездочкой обозначены поля для обязательного заполнения</div>
 			<div class="btn-wrapper"><button type="submit" class="btn">ОТПРАВИТЬ</button></div>
 			<div class="uploader">
-				<span class="btn"><span>ДОБАВИТЬ ФАЙЛЫ</span><input type="file" data-name="files[]"></span>
+				<span class="btn"><span>ДОБАВИТЬ ФАЙЛЫ</span><input type="file" multiple data-name="files[]"></span>
 				<ol class="selected-files"></ol>
 			</div>
 			<div class="clearfix"></div>

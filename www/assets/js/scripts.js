@@ -27,7 +27,10 @@ jQuery(function($) {
         $('.selected-files li:contains("'+ filename +'")', form).remove();
         if(!$('.selected-files li', form).length) form.submit();
       }
-      $.each(uploader._queue, function(index, item) { uploader.submit(); });
+      $('.uploader', form).each(function(index, element) {
+        var o = uploader[$(this).data('index')];
+        $.each(o._queue, function(index, item) { o.submit(); });
+      });
     } else {
       var data = form.serializeArray();
       ajaxPage(data);
@@ -121,24 +124,24 @@ function init() {
 
 
   $('form').trigger('reset');
-  if (tinymce) tinymce.init({selector:'textarea'});
+  if (tinymce) tinymce.init({selector:'textarea.editor', toolbar: "code | undo redo | styleselect | bold italic | link image | bullist numlist outdent indent", menubar : false, plugins: "code, link, image"});
 
 
-  selectedFiles = false;
-  if (uploader) uploader.destroy();
-  if ($('.uploader').length) {
-    uploader = new ss.SimpleUpload({
-      button: $('.uploader .btn').toArray(),
+  uploader = {};
+  $('.uploader').each(function(index, element) {
+    $(this).attr('data-index', index);
+    uploader[index] = new ss.SimpleUpload({
+      button: $('.btn', $(this)),
       url: '/uploadFiles',
       name: 'file',
-      multiple: true,
+      multiple: $(':file', $(this)).attr('multiple'),
       autoSubmit: false,
       maxUploads: 10,
       responseType: 'json',
       onChange: function(filename, extension, uploadBtn) {
         $('.selected-files', $(uploadBtn).parents('.uploader')).empty();
         setTimeout(function() {
-          $.each(uploader._queue, function(index, item) {
+          $.each(uploader[index]._queue, function(index2, item) {
             $('.selected-files', $(uploadBtn).parents('.uploader')).append('<li>'+item.file.name+'</li>');
           })
         }, 0);
@@ -147,7 +150,7 @@ function init() {
         onComplete(filename, response, uploadBtn);
       }
     });
-  }
+  });
 }
 
 
@@ -176,6 +179,9 @@ function ajaxPage(postData) {
         else if (response.redirect) {
           history.pushState(null, null, response.redirect);
           ajaxPage();
+        }
+        else if (response.updatePage) {
+          window.location = window.location;
         }
       } else {
         $('.b-content').html(response);

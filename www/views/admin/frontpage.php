@@ -8,7 +8,8 @@
 					<span class="btn"><span>ВЫБРАТЬ</span><input type="file" data-name="i-data[file]"></span>
 					<ol class="selected-files"></ol>
 				</div>
-				<input type="text" name="i-data[url]" style="width: 250px; margin: 0 10px;" placeholder="URL"> <span class="b-format">(jpg, png, swf, html5)</span>
+				<span class="b-format">(jpg, png, swf)</span>
+				<input type="text" name="i-data[url]" style="width: 250px; margin: 0 10px;" placeholder="URL">
 			</td>
 			<td rowspan="2"><button type="submit" class="btn">ДОБАВИТЬ</button></td>
 		</tr>
@@ -49,7 +50,7 @@
 		</tr>
 		<?php endforeach; ?>
 	</table>
-	<input type="hidden" name="index" value="<?php echo $GLOBALS['top-banner'][count($GLOBALS['top-banner']) - 1]['index'] + 1; ?>">
+	<input type="hidden" name="i-data[index]" value="<?php echo $GLOBALS['top-banner'][count($GLOBALS['top-banner']) - 1]['index'] + 1; ?>">
 	<input type="hidden" name="action" value="insert">
 	<input type="hidden" name="table" value="top-banner">
 </form>
@@ -81,15 +82,16 @@
 			<td>
 				<div class="uploader">
 					<span class="btn"><span>ВЫБРАТЬ</span><input type="file" data-name="i-data[file]"></span>
-					<span class="b-format">jpg/png</span>
 					<ol class="selected-files"></ol>
 				</div>
+				<span class="b-format">jpg/png</span>
 			</td>
 			<td><input type="text" name="i-data[name]" placeholder="ИМЯ"></td>
 			<td style="text-align: center;"><input type="checkbox" name="i-data[on_frontpage]" value="1"></td>
 			<td><button type="submit" class="btn">ДОБАВИТЬ</button></td>
 		</tr>
 	</table>
+	<input type="hidden" name="i-data[index]" value="<?php echo $GLOBALS['clients'][count($GLOBALS['clients']) - 1]['index'] + 1; ?>">
 	<input type="hidden" name="action" value="insert">
 	<input type="hidden" name="table" value="clients">
 </form>

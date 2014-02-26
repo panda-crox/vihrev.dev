@@ -46,6 +46,11 @@ a {
 
 
 .uploader {
+	.admin & {
+		display: inline-block;
+		vertical-align: top;
+		width: 80px;
+	}
 	.btn {
 		position: relative;
 		overflow: hidden;
@@ -970,6 +975,7 @@ a {
 			}
 			img {max-height: 100%; vertical-align: top;}
 		}
+		th {white-space: nowrap;}
 	}
 	.btn {
 		vertical-align: top;
@@ -990,15 +996,6 @@ a {
 	.edit {
 		.hidden {display: inline-block;}
 		.vis {display: none;}
-	}
-}
-
-
-.b-admin-banners {
-	.uploader {
-		display: inline-block;
-		vertical-align: top;
-		width: 80px;
 	}
 }
 

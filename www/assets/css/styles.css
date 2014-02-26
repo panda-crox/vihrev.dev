@@ -49,15 +49,20 @@ a:hover {
   font: 14px/1 "MyriadProRegular";
   cursor: pointer;
   text-decoration: none;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .btn:hover {
   background: #9a1115;
 }
 
+.admin .uploader {
+  display: inline-block;
+  vertical-align: top;
+  width: 80px;
+}
 .uploader .btn {
   position: relative;
   overflow: hidden;
@@ -130,10 +135,10 @@ a:hover {
   height: 17px;
   padding: 16px 0 17px;
   text-align: center;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-header .b-logo a:hover {
   background: #9a1115;
@@ -162,10 +167,10 @@ a:hover {
   text-decoration: none;
   text-align: center;
   border-left: 1px solid #ba141a;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-header .b-nav .b-nav__item > a.current {
   background: #9a1115;
@@ -181,11 +186,11 @@ a:hover {
   background: white;
   visibility: hidden;
   opacity: 0;
-  -webkit-box-shadow: 0 2px 3px black;
-  -moz-box-shadow: 0 2px 3px black;
-  -ms-box-shadow: 0 2px 3px black;
-  -o-box-shadow: 0 2px 3px black;
-  box-shadow: 0 2px 3px black;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
 }
 .b-header .b-nav .b-nav__item .b-nav__item__popup a {
   display: block;
@@ -194,10 +199,10 @@ a:hover {
   color: black;
   text-decoration: none;
   border-bottom: 1px solid #333333;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-header .b-nav .b-nav__item .b-nav__item__popup a:hover {
   background: #333333;
@@ -213,10 +218,10 @@ a:hover {
   visibility: visible;
   opacity: 1;
   z-index: 1000;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .client .b-header .b-nav .b-nav__item:nth-child(1) {
   display: none;
@@ -293,10 +298,10 @@ a:hover {
   text-decoration: none;
   text-align: center;
   border-left: 1px solid #9a1115;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-header .b-social a:hover {
   color: white;
@@ -315,10 +320,10 @@ a:hover {
   color: white;
   text-decoration: none;
   text-align: center;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-header .b-order-btn a:hover {
   background: black;
@@ -359,10 +364,10 @@ a:hover {
   line-height: 0;
   background: #999999;
   border-left: 1px solid #333333;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-banners .bx-pager .bx-pager-item a.active {
   background: #ba141a;
@@ -397,13 +402,13 @@ a:hover {
   bottom: 0;
   left: 0;
   padding: 5%;
-  background: #ba141a;
+  background: rgba(186, 20, 26, 0.9);
   visibility: hidden;
   opacity: 0;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-previews .b-previews__item .b-previews__item__popup .b-previews__item_type {
   background: white;
@@ -571,10 +576,10 @@ a:hover {
   border: 1px solid #666666;
   color: #666666;
   text-decoration: none;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-services .b-services__item .b-services__item__more:hover {
   background: black;
@@ -618,13 +623,13 @@ a:hover {
   bottom: 0;
   left: 0;
   padding: 5%;
-  background: #ba141a;
+  background: rgba(186, 20, 26, 0.9);
   visibility: hidden;
   opacity: 0;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-portfolio .b-portfolio__item .b-portfolio__item__popup .b-portfolio__item_type {
   background: white;
@@ -691,10 +696,10 @@ a:hover {
   text-align: center;
   text-transform: uppercase;
   border-bottom: 1px solid #333333;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-portfolio .b-portfolio__nav a:hover, .b-portfolio .b-portfolio__nav a.current {
   background: #1a1a1a;
@@ -781,10 +786,10 @@ a:hover {
   color: black;
   text-decoration: none;
   border: 1px solid black;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-pager a:hover {
   background: black;
@@ -923,10 +928,10 @@ a:hover {
   color: white;
   text-align: center;
   text-decoration: none;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-price .b-price__social a:hover {
   background: #9a1115;
@@ -1022,10 +1027,10 @@ a:hover {
   font-size: 13px;
   color: white;
   text-decoration: none;
-  -moz-transition: 0s;
-  -ms-transition: 0s;
-  -o-transition: 0s;
-  transition: 0s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
 }
 .b-support .b-support__files .b-support__files__item:hover {
   background: black;
@@ -1204,6 +1209,9 @@ a:hover {
   max-height: 100%;
   vertical-align: top;
 }
+.admin .b-content table th {
+  white-space: nowrap;
+}
 .admin .b-content .btn {
   vertical-align: top;
   font-size: 12px;
@@ -1231,12 +1239,6 @@ a:hover {
 }
 .admin .b-content .edit .vis {
   display: none;
-}
-
-.b-admin-banners .uploader {
-  display: inline-block;
-  vertical-align: top;
-  width: 80px;
 }
 
 .b-admin-price table {
@@ -1313,7 +1315,7 @@ a:hover {
 }
 
 .b-loading {
-  background: white;
+  background: rgba(255, 255, 255, 0.7);
   position: fixed;
   left: 0;
   top: 0;
@@ -1334,7 +1336,7 @@ a:hover {
 }
 
 .b-alert {
-  background: black;
+  background: rgba(0, 0, 0, 0.7);
   position: fixed;
   left: 0;
   top: 0;

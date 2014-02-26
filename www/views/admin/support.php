@@ -52,11 +52,11 @@
 <?php elseif (isset($GLOBALS['settings']['about'])) : ?>
 	<div style="max-width: 600px; margin-left: 20px;">
 		<h3>О НАС</h3>
-		<textarea name="u-data[about]"><?php echo $GLOBALS['settings']['about'] ?></textarea>
+		<textarea name="u-data[about]" class="editor"><?php echo $GLOBALS['settings']['about'] ?></textarea>
 		<h3>СТРАТЕГИЯ</h3>
-		<textarea name="u-data[strategy]"><?php echo $GLOBALS['settings']['strategy'] ?></textarea>
+		<textarea name="u-data[strategy]" class="editor"><?php echo $GLOBALS['settings']['strategy'] ?></textarea>
 		<h3>КЛИЕНТЫ И БРЕНДЫ</h3>
-		<textarea name="u-data[clients]"><?php echo $GLOBALS['settings']['clients'] ?></textarea>
+		<textarea name="u-data[clients]" class="editor"><?php echo $GLOBALS['settings']['clients'] ?></textarea>
 		<p style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></p>
 	</div>
 <?php endif; ?>

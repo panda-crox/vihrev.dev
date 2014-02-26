@@ -1,4 +1,59 @@
-<?php if (isset($_GET['branches'])) : ?>
+<?php if (isset($_GET['add'])) : ?>
+<form action="" method="POST" style="max-width: 750px; margin-left: 20px;">
+	<p><input type="text" name="i-data[name]" placeholder="ИМЯ" required></p>
+	<p><textarea name="u-data[about]" class="editor">Вводный текст</textarea></p>
+	<p><textarea name="u-data[about]" class="editor">Описание</textarea></p>
+	<table>
+		<tr><th>ПРЕВЬЮ</th><th>FLASH</th><th>GIF</th><th>JPG/PNG</th><th>HTML</th><th>НА ГЛАВНУЮ</th><th>РАЗДЕЛ</th></tr>
+		<tr>
+			<td style="width: 13%;">
+				<div class="uploader">
+					<span class="btn"><span>ВЫБРАТЬ</span><input type="file" data-name="i-data[preview]"></span>
+					<ol class="selected-files"></ol>
+				</div>
+			</td>
+			<td style="width: 13%;">
+				<div class="uploader">
+					<span class="btn"><span>ВЫБРАТЬ</span><input type="file" data-name="i-data[flash]"></span>
+					<ol class="selected-files"></ol>
+				</div>
+			</td>
+			<td style="width: 13%;">
+				<div class="uploader">
+					<span class="btn"><span>ВЫБРАТЬ</span><input type="file" data-name="i-data[gif]"></span>
+					<ol class="selected-files"></ol>
+				</div>
+			</td>
+			<td style="width: 13%;">
+				<div class="uploader">
+					<span class="btn"><span>ВЫБРАТЬ</span><input type="file" multiple data-name="i-data[jpg_png]"></span>
+					<ol class="selected-files"></ol>
+				</div>
+			</td>
+			<td style="width: 13%;">
+				<div class="uploader">
+					<span class="btn"><span>ВЫБРАТЬ</span><input type="file" data-name="i-data[html]"></span>
+					<ol class="selected-files"></ol>
+				</div>
+			</td>
+			<td style="text-align: center;"><input type="checkbox" name="i-data[on_frontpage]" value="1"></td>
+			<td>
+				<select name="i-data[category]">
+					<?php foreach ($GLOBALS['nav'] as $item) : if($item['module'] != 'portfolio') continue;
+					foreach ($item['childs'] as $index => $child) :
+					?>
+					<option value="<?php echo $child['id'] ?>"><?php echo $child['caption'] ?></option>
+					<?php endforeach; endforeach; ?>
+				</select>
+			</td>
+		</tr>
+	</table>
+	<p style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></p>
+	<input type="hidden" name="i-data[index]" value="<?php echo $GLOBALS['portfolio'][count($GLOBALS['portfolio']) - 1]['index'] + 1; ?>">
+	<input type="hidden" name="action" value="insert">
+	<input type="hidden" name="table" value="portfolio">
+</form>
+<?php elseif (isset($_GET['branches'])) : ?>
 <form action="" method="POST" class="b-admin-price">
 	<table>
 		<tr><th>НАИМЕНОВАНИЕ</th><th>URL</th><th class="small">УДАЛИТЬ</th></tr>
@@ -27,19 +82,27 @@
 	<input type="hidden" name="table" value="navigation">
 </form>
 <?php elseif (isset($GLOBALS['portfolio'])) : ?>
-<div class="b-portfolio">
-	<?php if ($GLOBALS['portfolio']) : foreach ($GLOBALS['portfolio'] as $item) : ?>
-	<div class="b-portfolio__item">
-		<div class="b-portfolio__item__inner">
-			<img src="/files/<?php echo $item['preview'] ?>" alt="">
-			<div class="b-portfolio__item__popup">
-				<span class="b-portfolio__item_type"><?php echo $item['category_name'] ?></span>
-				<div class="b-portfolio__item_name"><?php echo $item['name'] ?></div>
-				<div class="b-portfolio__item_desc"><?php echo $item['introtext'] ?></div>
-			</div>
-		</div>
-	</div>
-	<?php endforeach; endif; ?>
-	<div class="clearfix"></div>
-</div>
+<table>
+	<tr>
+		<th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>ИМЯ</th><th>Вводный текст</th><th>НА ГЛАВНУЮ</th><th>УДАЛИТЬ</th>
+	</tr>
+	<?php foreach ($GLOBALS['portfolio'] as $key => $item) : ?>
+	<tr>
+		<td class="small"><?php echo $key + 1 ?></td>
+		<td class="small"><span class="sort">
+			<?php if ($key) : ?>
+			<span class="ctrl-up" data-change-queue='{"type": "up", "index": "<?php echo $item['index'] ?>", "table": "portfolio"}'></span>
+			<?php endif; ?>
+			<?php if ($key != count($GLOBALS['portfolio']) - 1) : ?>
+			<span class="ctrl-down" data-change-queue='{"type": "down", "index": "<?php echo $item['index'] ?>", "table": "portfolio"}'></span>
+			<?php endif; ?>
+		</span></td>
+		<td style="text-align: center;"><img src="/files/<?php echo $item['preview'] ?>" style="min-height: 100px;"></td>
+		<td><?php echo $item['name'] ?></td>
+		<td valign="top"><?php echo $item['introtext'] ?></td>
+		<td style="text-align: center;"><?php echo $item['on_frontpage'] ?></td>
+		<td class="small"><i class="icon-cancel-circled" data-remove='{"id": "<?php echo $item['id'] ?>", "table": "portfolio"}'></i></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
 <?php endif; ?>
