@@ -1,6 +1,6 @@
+<form action="" method="POST">
 <?php if (isset($GLOBALS['top-banner'])) : ?>
-<form action="" method="POST" class="b-admin-banners">
-	<table>
+	<table class="b-admin-banners">
 		<tr>
 			<td class="small">ВЫБРАТЬ ФАЙЛ</td>
 			<td colspan="4">
@@ -18,7 +18,7 @@
 			<td colspan="4"><input type="text" name="i-data[background]" style="width: 70px;" required></td>
 		</tr>
 		<tr>
-			<th></th><th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>URL</th><th>УДАЛИТЬ</th>
+			<th></th><th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>URL</th><th class="small">УДАЛИТЬ</th>
 		</tr>
 		<?php foreach ($GLOBALS['top-banner'] as $index => $item) : ?>
 		<tr>
@@ -53,12 +53,10 @@
 	<input type="hidden" name="i-data[index]" value="<?php echo $GLOBALS['top-banner'][count($GLOBALS['top-banner']) - 1]['index'] + 1; ?>">
 	<input type="hidden" name="action" value="insert">
 	<input type="hidden" name="table" value="top-banner">
-</form>
 <?php elseif (isset($GLOBALS['clients'])) : ?>
-<form action="" method="POST" class="b-admin-clients">
-	<table>
+	<table style="width: 600px;">
 		<tr>
-			<th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>ИМЯ</th><th>НА ГЛАВНУЮ</th><th>УДАЛИТЬ</th>
+			<th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>ИМЯ</th><th>НА ГЛАВНУЮ</th><th class="small">УДАЛИТЬ</th>
 		</tr>
 		<?php foreach ($GLOBALS['clients'] as $index => $item) : ?>
 		<tr data-index="<?php echo $index ?>">
@@ -97,16 +95,14 @@
 	<input type="hidden" name="i-data[index]" value="<?php echo $GLOBALS['clients'][count($GLOBALS['clients']) - 1]['index'] + 1; ?>">
 	<input type="hidden" name="action" value="insert">
 	<input type="hidden" name="table" value="clients">
-</form>
 <?php elseif (isset($GLOBALS['settings'])) : ?>
-<form action="" method="POST" class="b-admin-settings">
-	<table>
-		<tr><td>ЛОГИН</td><td><input type="text" name="u-data[login]" value="<?php echo $GLOBALS['settings']['login'] ?>" required></td></tr>
-		<tr><td>ПАРОЛЬ</td><td><input type="password" name="u-data[password]" value="<?php echo $GLOBALS['settings']['password'] ?>" required></td></tr>
+	<table style="width: 300px;">
+		<tr><td>ЛОГИН</td><td><input type="text" name="u-data[login]" value="<?php echo $GLOBALS['settings'][0]['login'] ?>" required></td></tr>
+		<tr><td>ПАРОЛЬ</td><td><input type="password" name="u-data[password]" value="<?php echo $GLOBALS['settings'][0]['password'] ?>" required></td></tr>
 		<tr><td colspan="2" style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></td></tr>
 	</table>
 	<input type="hidden" name="action" value="update">
 	<input type="hidden" name="table" value="settings">
-	<input type="hidden" name="id" value="<?php echo $GLOBALS['settings']['id'] ?>">
-</form>
+	<input type="hidden" name="id" value="<?php echo $GLOBALS['settings'][0]['id'] ?>">
 <?php endif; ?>
+</form>

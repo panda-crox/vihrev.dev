@@ -1,5 +1,5 @@
 <?php if (isset($GLOBALS['price'])) : ?>
-<form action="" method="POST" class="b-admin-price">
+<form action="" method="POST" style="width: 600px;">
 	<table>
 		<tr><th>НАИМЕНОВАНИЕ</th><th>СТОИМОСТЬ</th><th class="small">УДАЛИТЬ</th></tr>
 		<?php foreach ($GLOBALS['price'] as $index => $item) : ?>

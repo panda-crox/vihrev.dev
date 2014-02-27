@@ -15,13 +15,25 @@
 		require_once('classes/Uploader.php');
 
 		$uploader = new FileUpload('file');
-		$uploader->newFileName = time() . rand(100, 999) . '.' . strtolower($uploader->getExtension());
+		$fileName = time() . rand(100, 999);
+		$fileExt = strtolower($uploader->getExtension());
+		$uploader->newFileName = $fileName . '.' . $fileExt;
 		$result = $uploader->handleUpload($_SERVER['DOCUMENT_ROOT'] . ($main->isAdmin ? '/files/' : '/uploaded/'));
 
 		if (!$result) {
 			echo json_encode(array('success' => false, 'msg' => $uploader->getErrorMsg()));
 		} else {
-			echo json_encode(array('success' => true, 'file' => $uploader->getFileName()));
+			if ($fileExt == 'zip' && $main->isAdmin) {
+				mkdir($_SERVER['DOCUMENT_ROOT'] . '/files/' . $fileName);
+				$zip = new ZipArchive; 
+				$zip->open($_SERVER['DOCUMENT_ROOT'] . '/files/' . $uploader->getFileName());
+				$zip->extractTo($_SERVER['DOCUMENT_ROOT'] . '/files/' . $fileName); 
+				$zip->close();
+				@unlink($_SERVER['DOCUMENT_ROOT'] . '/files/' . $uploader->getFileName());
+				echo json_encode(array('success' => true, 'file' => $fileName));
+			} else {
+				echo json_encode(array('success' => true, 'file' => $uploader->getFileName()));
+			}
 		}  
 	}
 	else {
@@ -29,11 +41,11 @@
 			if ($_POST['action'] == 'insert') {
 				$main->insert($_POST['table'], $_POST['i-data']);
 			}
-			elseif ($_POST['action'] == 'remove') {
-				$main->remove($_POST['table'], $_POST['id']);
-			}
 			elseif ($_POST['action'] == 'update') {
 				$main->update($_POST['table'], $_POST['u-data'], $_POST['id']);
+			}
+			elseif ($_POST['action'] == 'remove') {
+				$main->delete($_POST['table'], $_POST['id']);
 			}
 			elseif ($_POST['action'] == 'change-queue') {
 				$main->changeQueue($_POST['table'], $_POST['index'], $_POST['type']);

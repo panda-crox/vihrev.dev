@@ -5,11 +5,17 @@ $red: #ba141a;
 $gray: #333333;
 $green: #009933;
 
-html, body {height: 100%; min-width: 900px;}
+.site {
+	html, body {
+		height: 100%;
+		min-width: 900px;
+		padding: 0;
+		margin: 0;
+	}
+}
+
 
 body {
-	padding: 0;
-	margin: 0;
 	font: 16px/1.2 "MyriadProRegular", Arial, sans-serif;
 	color: $gray;
 }
@@ -21,6 +27,9 @@ a {
 	color: black;
 	&:hover {text-decoration: none;}
 }
+hr {
+	border-width: 1px 0 0;
+}
 
 
 [type="text"], [type="password"], textarea, select {
@@ -29,6 +38,7 @@ a {
 	resize: none;
 	@include box-sizing(border-box);
 }
+textarea {height: 100px;}
 
 
 .btn {
@@ -820,52 +830,70 @@ a {
 		height: 50px;
 		margin: 45px 0;
 	}
-	.b-support__about {
-		padding-bottom: 70px;
-		border-bottom: 1px solid #e6e6e6;
-		.b-support__about__left {
-			float: left;
-			width: 50%;
-			h3 {
-				color: $red;
-				margin: 0;
-				font-size: 35px;
-			}
-		}
-		.b-support__about__right {
-			background: $red;
-			position: relative;
-			float: right;
-			width: 40%;
-			padding: 20px;
-			color: white;
-			&:after {
-				content: "";
-				position: absolute;
-				top: 100%;
-				left: 50px;
-				border-style: solid;
-				border-width: 45px 45px 0 0;
-				border-color: darken($red, 7%) transparent transparent;
-			}
-			h3 {
-				margin: 0;
-				font-size: 35px;
-			}
-		}
-	}
 	.b-support__clients {
 		max-width: 870px;
 		margin: 0 auto;
+		div {
+			display: table;
+			width: 100%;
+			&:first-child .b-support__clients__logos__item {border-top: none;}
+			.b-support__clients__logos__item {
+				display: table-cell;
+				vertical-align: middle;
+				width: 20%;
+				padding: 45px 0;
+				text-align: center;
+				border-left: 1px solid #cccccc;
+				border-top: 1px solid #cccccc;
+				&:nth-child(1) {border-left: none;}
+			}
+		}
+	}
+	.b-support__text-about {
+		float: left;
+		width: 50%;
+		margin-bottom: 50px;
+		h3 {
+			color: $red;
+			margin: 0;
+			font-size: 35px;
+		}
+	}
+	.b-support__text-strategy {
+		background: $red;
+		position: relative;
+		float: right;
+		width: 40%;
+		padding: 20px;
+		color: white;
+		margin-bottom: 90px;
+		&:after {
+			content: "";
+			position: absolute;
+			top: 100%;
+			left: 50px;
+			border-style: solid;
+			border-width: 45px 45px 0 0;
+			border-color: darken($red, 7%) transparent transparent;
+		}
+		h3 {
+			margin: 0;
+			font-size: 35px;
+		}
+	}
+	.b-support__text-clients {
+		clear: both;
 		text-align: center;
+		border-top: 1px solid #e6e6e6;
 		h3 {
 			font-size: 40px;
 			color: black;
 			margin: 15px 0;
 		}
-		.b-support__clients__facia {
+		.facia {
 			position: relative;
-			margin: 0 10% 70px;
+			margin: 0 auto 70px;
+			max-width: 800px;
 			padding: 15px;
 			background: $red;
 			color: white;
@@ -883,7 +911,7 @@ a {
 				right: 0;
 				border-width: 20px 50px 0 0;
 			}
-			.inner:before, .inner:after {
+			.facia-inner:before, .facia-inner:after {
 				content: "";
 				position: absolute;
 				top: 100%;
@@ -893,26 +921,11 @@ a {
 				border-width: 10px 0 10px 22px;
 				border-color: transparent transparent transparent darken($red, 10%);
 			}
-			.inner:after {
+			.facia-inner:after {
 				left: auto;
 				right: 28px;
 				border-width: 10px 22px 10px 0;
 				border-color: transparent darken($red, 10%) transparent transparent;
-			}
-		}
-		.b-support__clients__logos div {
-			display: table;
-			width: 100%;
-			&:first-child .b-support__clients__logos__item {border-top: none;}
-			.b-support__clients__logos__item {
-				display: table-cell;
-				vertical-align: middle;
-				width: 20%;
-				padding: 45px 0;
-				text-align: center;
-				border-left: 1px solid #cccccc;
-				border-top: 1px solid #cccccc;
-				&:nth-child(1) {border-left: none;}
 			}
 		}
 	}
@@ -953,6 +966,8 @@ a {
 	table {
 		border: none;
 		border-collapse: collapse;
+		width: 100%;
+		max-width: 800px;
 		td, th {
 			padding: 2px 10px;
 			height: 41px;
@@ -994,14 +1009,9 @@ a {
 	}
 	.hidden {display: none;}
 	.edit {
-		.hidden {display: inline-block;}
+		.hidden {display: block;}
 		.vis {display: none;}
 	}
-}
-
-
-.b-admin-price {
-	table {width: 600px;}
 }
 
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 26 2014 г., 23:35
+-- Время создания: Фев 27 2014 г., 23:51
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -27,11 +27,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `clients` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) NOT NULL,
   `file` varchar(256) NOT NULL,
-  `on_frontpage` int(1) NOT NULL,
-  `index` int(3) NOT NULL,
+  `on_frontpage` int(11) NOT NULL,
+  `index` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
@@ -53,13 +53,13 @@ INSERT INTO `clients` (`id`, `name`, `file`, `on_frontpage`, `index`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `navigation` (
-  `id` int(2) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `caption` varchar(256) NOT NULL COMMENT 'Название, отображающееся в пунктах меню',
   `url` varchar(256) NOT NULL COMMENT 'Адрес страницы',
   `module` enum('frontpage','portfolio','price','support') NOT NULL COMMENT 'Шаблон страницы',
   `section` varchar(256) NOT NULL,
-  `parent` int(2) NOT NULL COMMENT 'Родительский пункт',
-  `side` varchar(256) NOT NULL,
+  `parent` int(11) NOT NULL COMMENT 'Родительский пункт',
+  `side` enum('client','admin') NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
@@ -81,7 +81,7 @@ INSERT INTO `navigation` (`id`, `caption`, `url`, `module`, `section`, `parent`,
 (12, 'Сделай сам', 'do', 'frontpage', 'do', 0, 'client'),
 (13, 'Файлы', 'files', 'support', 'files', 4, 'admin'),
 (14, 'Контакты', 'contacts', 'support', 'contacts', 4, 'admin'),
-(15, 'Текст', 'text', 'support', 'about,strategy,clients', 4, 'admin');
+(15, 'Текст', 'text', 'support', 'text', 4, 'admin');
 
 -- --------------------------------------------------------
 
@@ -100,24 +100,19 @@ CREATE TABLE IF NOT EXISTS `portfolio` (
   `jpg_png` text NOT NULL,
   `html` varchar(256) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `category` int(3) NOT NULL,
-  `on_frontpage` int(1) NOT NULL,
-  `index` int(3) NOT NULL,
+  `category` int(11) NOT NULL,
+  `on_frontpage` int(11) NOT NULL,
+  `index` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Дамп данных таблицы `portfolio`
 --
 
 INSERT INTO `portfolio` (`id`, `name`, `introtext`, `text`, `preview`, `flash`, `gif`, `jpg_png`, `html`, `date`, `category`, `on_frontpage`, `index`) VALUES
-(1, 'РосТрансАвиа', 'РосТрансАвиа', 'РосТрансАвиа', 'preview-1.jpg', '', '', '', '', '2014-02-16 08:40:07', 5, 1, 1),
-(2, 'Форекс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-2.jpg', '', '', '', '', '2014-02-16 08:41:07', 6, 1, 5),
-(3, 'Canon', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-3.jpg', '', '', '', '', '2014-02-16 08:41:28', 7, 1, 3),
-(4, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 08:41:50', 5, 1, 2),
-(5, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 08:41:54', 6, 1, 4),
-(6, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 08:41:56', 7, 1, 6),
-(7, 'ЧеStars', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'С Ильей Лагутенко, анонсирующий музыкальный конкурс', 'preview-4.jpg', '', '', '', '', '2014-02-16 08:41:57', 5, 1, 7);
+(13, 'ЧЕ СТАРС', 'Вводный текст', '<p>Описание</p>', '1393530348453.jpg', '', '', '', '', '2014-02-27 19:45:48', 6, 1, 2),
+(12, 'ФОРЕКС', 'Вводный текст', '<p>Описание</p>', '1393530304174.jpg', '', '', '', '', '2014-02-27 19:45:04', 5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -129,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `price-list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) NOT NULL,
   `price` varchar(256) NOT NULL,
-  `category` int(3) NOT NULL,
+  `category` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
@@ -156,15 +151,10 @@ INSERT INTO `price-list` (`id`, `name`, `price`, `category`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `settings` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(256) NOT NULL,
   `password` varchar(256) NOT NULL,
-  `contacts` text NOT NULL,
-  `files` text NOT NULL,
-  `about` text NOT NULL,
-  `strategy` text NOT NULL,
-  `clients` text NOT NULL,
-  `index` int(3) NOT NULL,
+  `index` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -172,8 +162,39 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- Дамп данных таблицы `settings`
 --
 
-INSERT INTO `settings` (`id`, `login`, `password`, `contacts`, `files`, `about`, `strategy`, `clients`, `index`) VALUES
-(1, 'admin', '32535', 'a:5:{i:0;a:2:{s:7:"caption";s:5:"skype";s:5:"value";s:7:"wvihrev";}i:1;a:2:{s:7:"caption";s:3:"icq";s:5:"value";s:11:"355-133-868";}i:2;a:2:{s:7:"caption";s:3:"tel";s:5:"value";s:15:"+7931 337 48 37";}i:3;a:2:{s:7:"caption";s:4:"mail";s:5:"value";s:17:"wvihrev@gmail.com";}i:4;a:2:{s:7:"caption";s:0:"";s:5:"value";s:0:"";}}', 'a:5:{i:0;a:2:{s:4:"name";s:69:"Бриф на изготовление интернетбаннера";s:4:"file";s:17:"1393182006700.png";}i:1;a:2:{s:4:"name";s:88:"Бриф на изготовление полиграфической продукции";s:4:"file";s:17:"1393182020686.png";}i:2;a:2:{s:4:"name";s:68:"Бриф на изготовлние наружной рекламы";s:4:"file";s:17:"1393182035249.png";}i:3;a:2:{s:4:"name";s:53:"Бриф на изготовлние логотипа";s:4:"file";s:17:"1393182054186.png";}i:4;a:1:{s:4:"name";s:0:"";}}', '<p>Развивающаяся компания в сфере Интернет-рекламы, которая специализируется на создании флеш-баннеров. Главная цель - создание привлекательного и стильного рекламного продукта, отвечающего всем требованиям современной рекламной индустрии.</p>\r\n<p><strong>Интересные факты</strong><br />В современном мире, где многое зависит от финансов, для проведения рекламной кампании флеш баннер является одним из самых недорогих, но достаточно продуктивных способов раскрутки.</p>\r\n<p>Стоимость флеш баннера может варьироваться и вы всегда можете выбрать именно то, что нужно вам. Ну а мы, в свою очередь, с удовольствием возьмемся за исполнение ваших самых креативных идей и замыслов! Так как мы стремимся к качеству и совершенству каждого рекламного продукта, выпускаемого студией. Заказать флеш баннер</p>', '<p><strong>Цель</strong><br />Наша основная задача достижение максимального результата, никогда не останавливаться на достигнутом и постоянно совершенствоваться в сфере интернет рекламы и дизайна.</p>\r\n<p><strong>Методы</strong><br />Основой лучшей реализации рекламы является ясное донесение информации рекламного продукта. От креатива к реализации.</p>', '<p>Мы работаем вместе с этими брендами и выработали стратегию наряду с уникальным подходом. Мы процветаем и сотрудничаем с клиентами, которые хотят расширить границы и мыслить нестандартно.</p>', 0);
+INSERT INTO `settings` (`id`, `login`, `password`, `index`) VALUES
+(1, 'admin', '32535', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `support`
+--
+
+CREATE TABLE IF NOT EXISTS `support` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` enum('files','contacts','text') NOT NULL,
+  `name` varchar(256) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+--
+-- Дамп данных таблицы `support`
+--
+
+INSERT INTO `support` (`id`, `type`, `name`, `value`) VALUES
+(2, 'files', 'Бриф на изготовление интернетбаннера', '1393516097897.png'),
+(3, 'files', 'Бриф на изготовление полиграфической продукции', '1393516114927.png'),
+(4, 'files', 'Бриф на изготовлние наружной рекламы', '1393516131141.png'),
+(5, 'files', 'Бриф на изготовлние логотипа', '1393516147921.png'),
+(6, 'contacts', 'skype', 'wvihrev'),
+(8, 'contacts', 'icq', '355-133-868'),
+(9, 'contacts', 'tel', '+7 931 337 48 37'),
+(10, 'contacts', 'mail', 'wvihrev@gmail.com'),
+(11, 'text', 'about', '<h3>О НАС</h3>\r\n<p>Развивающаяся компания в сфере Интернет-рекламы, которая специализируется на создании флеш-баннеров. Главная цель - создание привлекательного и стильного рекламного продукта, отвечающего всем требованиям современной рекламной индустрии.</p>\r\n<p><strong>Интересные факты</strong><br />В современном мире, где многое зависит от финансов, для проведения рекламной кампании флеш баннер является одним из самых недорогих, но достаточно продуктивных способов раскрутки.</p>\r\n<p>Стоимость флеш баннера может варьироваться и вы всегда можете выбрать именно то, что нужно вам. Ну а мы, в свою очередь, с удовольствием возьмемся за исполнение ваших самых креативных идей и замыслов! Так как мы стремимся к качеству и совершенству каждого рекламного продукта, выпускаемого студией. Заказать флеш баннер</p>'),
+(12, 'text', 'strategy', '<h3>СТРАТЕГИЯ</h3>\r\n<p><strong>Цель</strong><br />Наша основная задача достижение максимального результата, никогда не останавливаться на достигнутом и постоянно совершенствоваться в сфере интернет рекламы и дизайна.</p>\r\n<p><strong>Методы</strong><br />Основой лучшей реализации рекламы является ясное донесение информации рекламного продукта. От креатива к реализации.</p>'),
+(16, 'text', 'clients', '<h3>КЛИЕНТЫ И БРЕНДЫ</h3>\n<div class="facia">\n<div class="facia-inner">\n<p>Мы работаем вместе с этими брендами и выработали стратегию наряду с уникальным подходом. Мы процветаем и сотрудничаем с клиентами, которые хотят расширить границы и мыслить нестандартно.</p>\n</div>\n</div>');
 
 -- --------------------------------------------------------
 
@@ -182,13 +203,13 @@ INSERT INTO `settings` (`id`, `login`, `password`, `contacts`, `files`, `about`,
 --
 
 CREATE TABLE IF NOT EXISTS `top-banner` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `file` varchar(256) NOT NULL,
   `background` varchar(256) NOT NULL,
   `url` varchar(256) NOT NULL,
-  `index` int(3) NOT NULL,
+  `index` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
 
 --
 -- Дамп данных таблицы `top-banner`

@@ -1,9 +1,13 @@
 <?php if (isset($_GET['add'])) : ?>
-<form action="" method="POST" style="max-width: 750px; margin-left: 20px;">
-	<p><input type="text" name="i-data[name]" placeholder="ИМЯ" required></p>
-	<p><textarea name="i-data[introtext]" class="editor">Вводный текст</textarea></p>
-	<p><textarea name="i-data[description]" class="editor">Описание</textarea></p>
+<form action="" method="POST">
 	<table>
+		<tr>
+			<td colspan="7">
+				<p><input type="text" name="i-data[name]" placeholder="ИМЯ" required></p>
+				<p><textarea name="i-data[introtext]">Вводный текст</textarea></p>
+				<p><textarea name="i-data[text]" class="editor">Описание</textarea></p>
+			</td>
+		</tr>
 		<tr><th>ПРЕВЬЮ</th><th>FLASH</th><th>GIF</th><th>JPG/PNG</th><th>HTML</th><th>НА ГЛАВНУЮ</th><th>РАЗДЕЛ</th></tr>
 		<tr>
 			<td style="width: 13%;">
@@ -47,14 +51,14 @@
 				</select>
 			</td>
 		</tr>
+		<tr><td colspan="7" style="text-align: center;"><button type="submit" class="btn">ДОБАВИТЬ</button></td></tr>
 	</table>
-	<p style="text-align: center;"><button type="submit" class="btn">СОХРАНИТЬ</button></p>
 	<input type="hidden" name="i-data[index]" value="<?php echo $GLOBALS['portfolio'][count($GLOBALS['portfolio']) - 1]['index'] + 1; ?>">
 	<input type="hidden" name="action" value="insert">
 	<input type="hidden" name="table" value="portfolio">
 </form>
 <?php elseif (isset($_GET['branches'])) : ?>
-<form action="" method="POST" class="b-admin-price">
+<form action="" method="POST" style="width: 600px;">
 	<table>
 		<tr><th>НАИМЕНОВАНИЕ</th><th>URL</th><th class="small">УДАЛИТЬ</th></tr>
 		<?php foreach ($GLOBALS['nav'] as $item) : if($item['module'] != 'portfolio') continue;
@@ -84,7 +88,7 @@
 <?php elseif (isset($GLOBALS['portfolio'])) : ?>
 <table>
 	<tr>
-		<th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>ИМЯ</th><th>Вводный текст</th><th>НА ГЛАВНУЮ</th><th>УДАЛИТЬ</th>
+		<th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>ИМЯ</th><th>ВВОДНЫЙ ТЕКСТ</th><th>НА ГЛАВНУЮ</th><th>УДАЛИТЬ</th>
 	</tr>
 	<?php foreach ($GLOBALS['portfolio'] as $index => $item) : ?>
 	<tr data-index="<?php echo $index ?>">

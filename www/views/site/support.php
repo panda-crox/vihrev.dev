@@ -24,49 +24,33 @@
 		</form>
 		<div class="b-support__files">
 			<span class="b-support__files__title">Файлы</span><br>
-			<?php if ($files = $GLOBALS['settings']['files']) :
-			foreach ($files as $index => $item) : if (!$item['name'] || !$item['file']) { unset($files[$index]); continue; } ?>
-			<div><a href="/files/<?php echo $item['file'] ?>" target="_blank" class="b-support__files__item"><?php echo $item['name'] ?></a></div>
-			<?php endforeach; endif; ?>
+			<?php foreach ($GLOBALS['support'] as $item) : if ($item['type'] != 'files') continue; ?>
+			<div><a href="/files/<?php echo $item['value'] ?>" target="_blank" class="b-support__files__item"><?php echo $item['name'] ?></a></div>
+			<?php endforeach; ?>
 		</div>
 		<div class="b-support__contacts">
 			<b class="red">Контакты</b>
-			<?php if ($contacts = $GLOBALS['settings']['contacts']) :
-			foreach ($contacts as $index => $item) : if (!$item['caption'] || !$item['value']) { unset($contacts[$index]); continue; } ?>
-			<p><?php echo $item['caption'] ?>: <?php echo $item['value'] ?></p>
-			<?php endforeach; endif; ?>
+			<?php foreach ($GLOBALS['support'] as $item) : if ($item['type'] != 'contacts') continue; ?>
+			<p><?php echo $item['name'] ?>: <?php echo $item['value'] ?></p>
+			<?php endforeach; ?>
 		</div>
 		<div class="clearfix"></div>
 	</div>
 	<div class="b-support__line"></div>
 	<div class="container">
-		<div class="b-support__about">
-			<div class="b-support__about__left">
-				<h3>О НАС</h3>
-				<?php echo $GLOBALS['settings']['about'] ?>
-			</div>
-			<div class="b-support__about__right">
-				<h3>СТРАТЕГИЯ</h3>
-				<?php echo $GLOBALS['settings']['strategy'] ?>
-			</div>
-			<div class="clearfix"></div>
-		</div>
+		<?php foreach ($GLOBALS['support'] as $item) : if ($item['type'] != 'text') continue; ?>
+		<div class="b-support__text-<?php echo $item['name'] ?>"><?php echo $item['value'] ?></div>
+		<?php endforeach; ?>
 		<div class="b-support__clients">
-			<h3>КЛИЕНТЫ И БРЕНДЫ</h3>
-			<div class="b-support__clients__facia">
-				<div class="inner"><?php echo $GLOBALS['settings']['clients'] ?></div>
+			<div>
+				<?php foreach ($GLOBALS['clients'] as $key => $item) : ?>
+				<span class="b-support__clients__logos__item"><img src="/files/<?php echo $item['file'] ?>" alt=""></span>
+				<?php if (($key + 1) % 5 == 0) : ?>
+				</div><div>
+				<?php endif; ?>
+				<?php endforeach; ?>
 			</div>
-			<div class="b-support__clients__logos">
-				<div>
-					<?php foreach ($GLOBALS['clients'] as $key => $item) : ?>
-					<span class="b-support__clients__logos__item"><img src="/files/<?php echo $item['file'] ?>" alt=""></span>
-					<?php if (($key + 1) % 5 == 0) : ?>
-					</div><div>
-					<?php endif; ?>
-					<?php endforeach; ?>
-				</div>
-			</div>
-			<div class="clearfix"></div>
 		</div>
+		<div class="clearfix"></div>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class="site">
 <head>
 	<meta charset="UTF-8">
 	<title>Vihrev</title>
@@ -9,7 +9,7 @@
 	<script src="/assets/js/SimpleAjaxUploader.min.js"></script>
 	<script src="/assets/js/history.min.js" type="text/javascript"></script>
 	<?php if ($this->isAdmin) : ?>
-	<script src="/assets/js/tinymce/tinymce.min.js" type="text/javascript"></script>
+	<script src="/assets/tinymce/tinymce.min.js" type="text/javascript"></script>
 	<?php endif; ?>
 	<script src="/assets/js/scripts.js" type="text/javascript"></script>
 </head>

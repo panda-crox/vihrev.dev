@@ -27,7 +27,7 @@ jQuery(function($) {
         $('.selected-files li:contains("'+ filename +'")', form).remove();
         if(!$('.selected-files li', form).length) form.submit();
       }
-      $('.uploader', form).each(function(index, element) {
+      $('.uploader', form).each(function(index, el) {
         var o = uploader[$(this).data('index')];
         $.each(o._queue, function(index, item) { o.submit(); });
       });
@@ -49,7 +49,10 @@ jQuery(function($) {
   })
   .on('click', '[data-update]', function(event) {
     var attr = $(this).data('update');
-    var data = $('[data-index="'+attr.index+'"] input').serializeArray();
+    var data = $('input, textarea, select', $('[data-index="'+attr.index+'"]')).serializeArray();
+    $('.editor', $('[data-index="'+attr.index+'"]')).each(function(index, el) {
+      data.push({"name": $(this).attr('name'), "value": tinymce.get('editor-'+attr.index).getContent()});
+    });
     data.push({"name": "action", "value": "update"});
     data.push({"name": "id", "value": attr.id});
     data.push({"name": "table", "value": attr.table});
@@ -110,7 +113,7 @@ function init() {
 
   $('.active').removeClass('active').find('.b-nav__item__popup').css({'width': 'auto'});
 
-  $('a').each(function(index, element) {
+  $('a').each(function(index, el) {
     if ($.inArray($(this).attr('href'), [window.location.pathname, window.location.search, window.location.pathname+window.location.search]) >= 0) {
       $(this).addClass('current').parents('.b-nav__item').addClass('active');
     }
@@ -124,11 +127,20 @@ function init() {
 
 
   $('form').trigger('reset');
-  if (tinymce) tinymce.init({selector:'textarea.editor', toolbar: "code | undo redo | styleselect | bold italic | link image | bullist numlist outdent indent", menubar : false, plugins: "code, link, image"});
+  if (tinymce) {
+    tinymce.init({
+      selector:'textarea.editor',
+      content_css : "/assets/css/styles.css",
+      toolbar: 'code | undo redo | styleselect | fontsizeselect | bold italic | forecolor backcolor | link unlink image | bullist numlist',
+      plugins: 'code, link, image, textcolor',
+      menubar: false,
+      language: 'ru'
+    });
+  }
 
 
   uploader = {};
-  $('.uploader').each(function(index, element) {
+  $('.uploader').each(function(index, el) {
     $(this).attr('data-index', index);
     uploader[index] = new ss.SimpleUpload({
       button: $('.btn', $(this)),

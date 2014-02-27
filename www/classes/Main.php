@@ -285,15 +285,14 @@
 			$data = array();
 			if (!$this->isAdmin) {
 				$data['clients'] = $this->select("SELECT * FROM `clients`");
-				$data['settings'] = $this->select("SELECT * FROM `settings`");
+				$data['support'] = $this->select("SELECT * FROM `support`");
 			} else {
 				$navItem = $this->getNavItem($this->nav, 'url', $this->requestPath);
 				if (!$navItem['section']) {
 					$this->redirect($navItem['childs'][0]['url']);
 				}
 				$section = $navItem['section'];
-				$data['settings'] = $this->select($q = "SELECT `id`, $section FROM `settings`");
-				if(!$data['settings'][0][$section]) $data['settings'][0][$section] = array();
+				$data[$section] = $this->select("SELECT * FROM `support` WHERE `type`='$section'");
 			}
 
 			$this->render('support.php', $data);
@@ -348,23 +347,26 @@
 		}
 
 
+		public function removeDirectory($dir)
+		{
+			if ($objs = glob($dir."/*")) {
+				foreach($objs as $obj) {
+					is_dir($obj) ? $this->removeDirectory($obj) : unlink($obj);
+				}
+	    }
+	    rmdir($dir);
+	  }
+
+
 		public function select($query)
 		{
 			$data = array();
 			$query = mysql_query($query);
-			if (mysql_num_rows($query) > 1) {
-				while ($item = mysql_fetch_assoc($query)) {
-					foreach ($item as $key => $value) {
-						$item[$key] = ($v = unserialize($value)) ? $v : $value;
-					}
-					$data[] = $item;
+			while ($item = mysql_fetch_assoc($query)) {
+				foreach ($item as $key => $value) {
+					$item[$key] = ($v = unserialize($value)) ? $v : $value;
 				}
-			}
-			else if (mysql_num_rows($query) == 1) {
-				$data = mysql_fetch_assoc($query);
-				foreach ($data as $key => $value) {
-					$data[$key] = ($v = unserialize($value)) ? $v : $value;
-				}
+				$data[] = $item;
 			}
 			return $data;
 		}
@@ -385,6 +387,12 @@
 		public function update($table, $data, $id)
 		{
 			$keysValues = '';
+			$query = mysql_query("SELECT * FROM `$table` WHERE `id`=$id");
+			$item = mysql_fetch_assoc($query);
+			foreach ($item as $key => $value) {
+				$filepath = $_SERVER['DOCUMENT_ROOT'] . '/files/' . $value;
+				@is_dir($filepath) ? @$this->removeDirectory($filepath) : @unlink($filepath);				
+			}
 			foreach ($data as $key => $value) {
 				if (is_array($value)) $value = serialize($value);
 				$keysValues .= $keysValues ? ",`$key`='$value'" : "`$key`='$value'";
@@ -393,17 +401,15 @@
 		}
 
 
-		public function remove($table, $id)
+		public function delete($table, $id)
 		{
 			$query = mysql_query("SELECT * FROM `$table` WHERE `id`=$id");
 			$item = mysql_fetch_assoc($query);
 			$query = mysql_query("DELETE FROM `$table` WHERE `id`=$id");
 
-			$files = $item['files'] ? unserialize($item['files']) : $item['file'] ? array($item['file']) : false;
-			if ($files) {
-				foreach ($files as $file) {
-					@unlink($_SERVER['DOCUMENT_ROOT'] . '/files/' . $item['file']);
-				}
+			foreach ($item as $key => $value) {
+				$filepath = $_SERVER['DOCUMENT_ROOT'] . '/files/' . $value;
+				@is_dir($filepath) ? @$this->removeDirectory($filepath) : @unlink($filepath);				
 			}
 		}
 
