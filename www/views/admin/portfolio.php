@@ -1,8 +1,8 @@
 <?php if (isset($_GET['add'])) : ?>
 <form action="" method="POST" style="max-width: 750px; margin-left: 20px;">
 	<p><input type="text" name="i-data[name]" placeholder="ИМЯ" required></p>
-	<p><textarea name="u-data[about]" class="editor">Вводный текст</textarea></p>
-	<p><textarea name="u-data[about]" class="editor">Описание</textarea></p>
+	<p><textarea name="i-data[introtext]" class="editor">Вводный текст</textarea></p>
+	<p><textarea name="i-data[description]" class="editor">Описание</textarea></p>
 	<table>
 		<tr><th>ПРЕВЬЮ</th><th>FLASH</th><th>GIF</th><th>JPG/PNG</th><th>HTML</th><th>НА ГЛАВНУЮ</th><th>РАЗДЕЛ</th></tr>
 		<tr>
@@ -86,21 +86,24 @@
 	<tr>
 		<th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>ИМЯ</th><th>Вводный текст</th><th>НА ГЛАВНУЮ</th><th>УДАЛИТЬ</th>
 	</tr>
-	<?php foreach ($GLOBALS['portfolio'] as $key => $item) : ?>
-	<tr>
-		<td class="small"><?php echo $key + 1 ?></td>
+	<?php foreach ($GLOBALS['portfolio'] as $index => $item) : ?>
+	<tr data-index="<?php echo $index ?>">
+		<td class="small"><?php echo $index + 1 ?></td>
 		<td class="small"><span class="sort">
-			<?php if ($key) : ?>
+			<?php if ($index) : ?>
 			<span class="ctrl-up" data-change-queue='{"type": "up", "index": "<?php echo $item['index'] ?>", "table": "portfolio"}'></span>
 			<?php endif; ?>
-			<?php if ($key != count($GLOBALS['portfolio']) - 1) : ?>
+			<?php if ($index != count($GLOBALS['portfolio']) - 1) : ?>
 			<span class="ctrl-down" data-change-queue='{"type": "down", "index": "<?php echo $item['index'] ?>", "table": "portfolio"}'></span>
 			<?php endif; ?>
 		</span></td>
 		<td style="text-align: center;"><img src="/files/<?php echo $item['preview'] ?>" style="min-height: 100px;"></td>
 		<td><?php echo $item['name'] ?></td>
 		<td valign="top"><?php echo $item['introtext'] ?></td>
-		<td style="text-align: center;"><?php echo $item['on_frontpage'] ?></td>
+		<td style="text-align: center;">
+			<input type="hidden" name="u-data[on_frontpage]" value="0">
+			<input type="checkbox" name="u-data[on_frontpage]" value="1" <?php echo $item['on_frontpage'] ? 'checked' : '' ?> data-update='{"index": "<?php echo $index ?>", "id": "<?php echo $item['id'] ?>", "table": "portfolio"}'>
+		</td>
 		<td class="small"><i class="icon-cancel-circled" data-remove='{"id": "<?php echo $item['id'] ?>", "table": "portfolio"}'></i></td>
 	</tr>
 	<?php endforeach; ?>

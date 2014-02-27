@@ -20,17 +20,17 @@
 		<tr>
 			<th></th><th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>URL</th><th>УДАЛИТЬ</th>
 		</tr>
-		<?php foreach ($GLOBALS['top-banner'] as $key => $item) : ?>
+		<?php foreach ($GLOBALS['top-banner'] as $index => $item) : ?>
 		<tr>
-			<?php if (!$key) : ?>
+			<?php if (!$index) : ?>
 			<td rowspan="<?php echo count($GLOBALS['top-banner']) ?>" class="small">УДАЛИТЬ, ПЕРЕМЕСТИТЬ БАННЕР</td>
 			<?php endif; ?>
-			<td class="small"><?php echo $key + 1 ?></td>
+			<td class="small"><?php echo $index + 1 ?></td>
 			<td class="small"><span class="sort">
-				<?php if ($key) : ?>
+				<?php if ($index) : ?>
 				<span class="ctrl-up" data-change-queue='{"type": "up", "index": "<?php echo $item['index'] ?>", "table": "top-banner"}'></span>
 				<?php endif; ?>
-				<?php if ($key != count($GLOBALS['top-banner']) - 1) : ?>
+				<?php if ($index != count($GLOBALS['top-banner']) - 1) : ?>
 				<span class="ctrl-down" data-change-queue='{"type": "down", "index": "<?php echo $item['index'] ?>", "table": "top-banner"}'></span>
 				<?php endif; ?>
 			</span></td>
@@ -60,20 +60,23 @@
 		<tr>
 			<th>&#8470;</th><th></th><th>ПРЕВЬЮ</th><th>ИМЯ</th><th>НА ГЛАВНУЮ</th><th>УДАЛИТЬ</th>
 		</tr>
-		<?php foreach ($GLOBALS['clients'] as $key => $item) : ?>
-		<tr>
-			<td class="small"><?php echo $key + 1 ?></td>
+		<?php foreach ($GLOBALS['clients'] as $index => $item) : ?>
+		<tr data-index="<?php echo $index ?>">
+			<td class="small"><?php echo $index + 1 ?></td>
 			<td class="small"><span class="sort">
-				<?php if ($key) : ?>
+				<?php if ($index) : ?>
 				<span class="ctrl-up" data-change-queue='{"type": "up", "index": "<?php echo $item['index'] ?>", "table": "clients"}'></span>
 				<?php endif; ?>
-				<?php if ($key != count($GLOBALS['clients']) - 1) : ?>
+				<?php if ($index != count($GLOBALS['clients']) - 1) : ?>
 				<span class="ctrl-down" data-change-queue='{"type": "down", "index": "<?php echo $item['index'] ?>", "table": "clients"}'></span>
 				<?php endif; ?>
 			</span></td>
 			<td style="text-align: center;"><img src="/files/<?php echo $item['file'] ?>"></td>
 			<td><?php echo $item['name'] ?></td>
-			<td style="text-align: center;"><?php echo $item['on_frontpage'] ?></td>
+			<td style="text-align: center;">
+				<input type="hidden" name="u-data[on_frontpage]" value="0">
+				<input type="checkbox" name="u-data[on_frontpage]" value="1" <?php echo $item['on_frontpage'] ? 'checked' : '' ?> data-update='{"index": "<?php echo $index ?>", "id": "<?php echo $item['id'] ?>", "table": "clients"}'>
+			</td>
 			<td class="small"><i class="icon-cancel-circled" data-remove='{"id": "<?php echo $item['id'] ?>", "table": "clients"}'></i></td>
 		</tr>
 		<?php endforeach; ?>
