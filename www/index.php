@@ -4,19 +4,19 @@
 	mysql_query("SET CHARSET utf8");
 	//chmod($_SERVER['DOCUMENT_ROOT'] . '/uploaded/', 0777);
 	
-	require_once('classes.php');
-	$vihrev = new Vihrev();
+	require_once('classes/Main.php');
+	$main = new Main();
 
 
-	if (!$vihrev->checkUrl($vihrev->nav) && $vihrev->requestPath != 'uploadFiles') {
-		$vihrev->get404();
+	if (!$main->checkUrl($main->nav) && $main->requestPath != 'uploadFiles') {
+		$main->get404();
 	}
-	else if ($vihrev->requestPath == 'uploadFiles') {
-		require_once('Uploader.php');
+	else if ($main->requestPath == 'uploadFiles') {
+		require_once('classes/Uploader.php');
 
 		$uploader = new FileUpload('file');
 		$uploader->newFileName = time() . rand(100, 999) . '.' . strtolower($uploader->getExtension());
-		$result = $uploader->handleUpload($_SERVER['DOCUMENT_ROOT'] . ($vihrev->isAdmin ? '/files/' : '/uploaded/'));
+		$result = $uploader->handleUpload($_SERVER['DOCUMENT_ROOT'] . ($main->isAdmin ? '/files/' : '/uploaded/'));
 
 		if (!$result) {
 			echo json_encode(array('success' => false, 'msg' => $uploader->getErrorMsg()));
@@ -27,23 +27,23 @@
 	else {
 		if ($_POST) {
 			if ($_POST['action'] == 'insert') {
-				$vihrev->insert($_POST['table'], $_POST['i-data']);
+				$main->insert($_POST['table'], $_POST['i-data']);
 			}
 			elseif ($_POST['action'] == 'remove') {
-				$vihrev->remove($_POST['table'], $_POST['id']);
+				$main->remove($_POST['table'], $_POST['id']);
 			}
 			elseif ($_POST['action'] == 'update') {
-				$vihrev->update($_POST['table'], $_POST['u-data'], $_POST['id']);
+				$main->update($_POST['table'], $_POST['u-data'], $_POST['id']);
 			}
 			elseif ($_POST['action'] == 'change-queue') {
-				$vihrev->changeQueue($_POST['table'], $_POST['index'], $_POST['type']);
+				$main->changeQueue($_POST['table'], $_POST['index'], $_POST['type']);
 			}
 			elseif ($_POST['action'] == 'message') {
-				$vihrev->sendMail();
+				$main->sendMail();
 			}
 		}
 
-		$func =$vihrev->getModule($vihrev->nav);
-		$vihrev->$func();
+		$func =$main->getModule($main->nav);
+		$main->$func();
 	}
 ?>

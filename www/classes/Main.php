@@ -1,5 +1,5 @@
 <?php
-	class Vihrev
+	class Main
 	{
 		private $viewsPath;
 		private $_template;
@@ -318,39 +318,32 @@
 
 		public function sendMail()
 		{
+			require_once('classes/phpmailer/class.phpmailer.php');
+			$mailer = new PHPMailer();
 			$to = 'salavat-1@mail.ru';
 			$subject = 'Новая заявка с сайта';
 			$message = nl2br($_POST['text']);
-			$sid = md5(uniqid(time()));
 
-			$headers = "";
-			$headers .= "From: " . $_POST['fio'];
-			if ($_POST['org']) $headers .= " (" . $_POST['org'] . ")";
-			$headers .= " <".$_POST['email'].">\nReply-To: ".$_POST['email']."\r\n";
+			$mailer->FromName = $_POST['fio'] . ($_POST['org'] ? " (" . $_POST['org'] . ")" : "");
+			$mailer->From = $_POST['email'];
+			$mailer->Subject = $subject;
+			$mailer->Body = $message;
+			$mailer->isHTML(true);
+			$mailer->IsSMTP();
+			$mailer->AddAddress($to);
+			$mailer->CharSet = 'utf-8';
 
-			$headers .= "MIME-Version: 1.0\r\n";
-			$headers .= "Content-Type: multipart/mixed; boundary=\"".$sid."\"\r\n";
-			$headers .= "This is a multi-part message in MIME format.\n";
-
-			$headers .= "--".$sid."\n";
-			$headers .= "Content-type: text/html; charset=utf-8\n";
-			$headers .= "Content-Transfer-Encoding: 7bit\n\n";
-			$headers .= $message."\n\n";
-
-			//*** Attachment ***//  
 			if($_POST['files']) {
 				foreach ($_POST['files'] as $file) { 
-					$fileBase64 = chunk_split(base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/uploaded/' . $file)));  
-					$headers .= "--".$sid."\n";  
-					$headers .= "Content-Type: application/octet-stream; name=\"".$file."\"\n";  
-					$headers .= "Content-Transfer-Encoding: base64\n";  
-					$headers .= "Content-Disposition: attachment; filename=\"".$file."\"\n\n";  
-					$headers .= $fileBase64."\n\n";
+					$mailer->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/uploaded/' . $file, $file);
 				}
-			}  
-
-			mail($to, $subject, null, $headers);
-			echo json_encode(array('json' => true, 'type' => 'message'));
+			}
+			
+			if(@$mailer->Send()){
+				$mailer->ClearAddresses();
+				$mailer->ClearAttachments();
+				echo json_encode(array('json' => true, 'type' => 'message'));
+			}
 			die();
 		}
 

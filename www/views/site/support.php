@@ -24,14 +24,14 @@
 		</form>
 		<div class="b-support__files">
 			<span class="b-support__files__title">Файлы</span><br>
-			<?php if ($files = $GLOBALS['settings'][0]['files']) :
+			<?php if ($files = $GLOBALS['settings']['files']) :
 			foreach ($files as $index => $item) : if (!$item['name'] || !$item['file']) { unset($files[$index]); continue; } ?>
 			<div><a href="/files/<?php echo $item['file'] ?>" target="_blank" class="b-support__files__item"><?php echo $item['name'] ?></a></div>
 			<?php endforeach; endif; ?>
 		</div>
 		<div class="b-support__contacts">
 			<b class="red">Контакты</b>
-			<?php if ($contacts = $GLOBALS['settings'][0]['contacts']) :
+			<?php if ($contacts = $GLOBALS['settings']['contacts']) :
 			foreach ($contacts as $index => $item) : if (!$item['caption'] || !$item['value']) { unset($contacts[$index]); continue; } ?>
 			<p><?php echo $item['caption'] ?>: <?php echo $item['value'] ?></p>
 			<?php endforeach; endif; ?>
@@ -43,18 +43,18 @@
 		<div class="b-support__about">
 			<div class="b-support__about__left">
 				<h3>О НАС</h3>
-				<?php echo $GLOBALS['settings'][0]['about'] ?>
+				<?php echo $GLOBALS['settings']['about'] ?>
 			</div>
 			<div class="b-support__about__right">
 				<h3>СТРАТЕГИЯ</h3>
-				<?php echo $GLOBALS['settings'][0]['strategy'] ?>
+				<?php echo $GLOBALS['settings']['strategy'] ?>
 			</div>
 			<div class="clearfix"></div>
 		</div>
 		<div class="b-support__clients">
 			<h3>КЛИЕНТЫ И БРЕНДЫ</h3>
 			<div class="b-support__clients__facia">
-				<div class="inner"><?php echo $GLOBALS['settings'][0]['clients'] ?></div>
+				<div class="inner"><?php echo $GLOBALS['settings']['clients'] ?></div>
 			</div>
 			<div class="b-support__clients__logos">
 				<div>
