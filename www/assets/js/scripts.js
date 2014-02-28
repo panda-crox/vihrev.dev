@@ -207,3 +207,8 @@ function ajaxPage(postData) {
 function removeItem (id) {
   $('[data-id="'+id+'"]').remove();
 }
+
+
+function resizeIframe(obj) {
+  obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+}

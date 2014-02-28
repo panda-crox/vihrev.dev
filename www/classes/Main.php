@@ -217,6 +217,7 @@
 				if (!$item) {
 					$this->get404();
 				}
+				$item = $item[0];
 
 				if ($item['prev_id']) {
 					$navItem = $this->getNavItem($this->nav, 'id', $item['prev_category']);
