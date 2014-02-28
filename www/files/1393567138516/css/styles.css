@@ -1,0 +1,29 @@
+body { padding: 0; margin: 0; font: 16px/1.2 "MyriadProRegular", Arial, sans-serif; color: #333333; }
+h1, h2, h3, h4, h5, b { font-family: "MyriadProBold"; font-weight: normal; }
+i { font-family: "MyriadProItalic"; font-style: normal; }
+a { outline: none; color: black; }
+a:hover { text-decoration: none; }
+hr { border-width: 1px 0 0; }
+[type="text"], [type="password"], textarea, select { width: 100%; font: 16px/1 "MyriadProRegular", Arial, sans-serif; resize: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
+textarea { height: 100px; }
+.btn { background: #ba141a; display: inline-block; border: none; text-align: center; color: white; font: 14px/1 "MyriadProRegular"; cursor: pointer; text-decoration: none; -moz-transition: 0s; -ms-transition: 0s; -o-transition: 0s; transition: 0s; }
+.btn:hover { background: #9a1115; }
+.container { min-width: 870px; max-width: 1170px; padding: 0 15px; margin: 0 auto; }
+.clearfix { clear: both; font-size: 0; line-height: 0; }
+
+
+.b-canon .b-canon__title { font-size: 35px; text-align: center; padding: 30px 0; }
+.b-canon .b-canon__title b { font-size: 40px; color: #ba141a; }
+.b-canon .b-canon__banner { background: black url(../images/canon-bg.jpg) center top no-repeat; height: 553px; padding: 90px 0 0; text-align: center; }
+.b-canon .b-canon__banner img { border: 40px solid white; }
+.b-canon .b-canon__aim { padding: 30px 0; color: #4d4d4d; }
+.b-canon .b-canon__aim h4 { font-size: 18px; margin: 5px 0; color: #ba141a; }
+.b-canon .b-canon__aim .b-canon__aim__author { color: black; }
+.b-canon .b-canon__stages { background: #ba141a; padding: 30px 0; color: white; }
+.b-canon .b-canon__stages h4 { font-size: 18px; margin: 5px 0; }
+.b-canon .b-canon__stages .number { font-size: 60px; }
+.b-canon .b-canon__stages .left { float: left; width: 45%; }
+.b-canon .b-canon__stages .right { float: right; width: 45%; text-align: right; }
+.b-canon .b-canon__realization { padding: 30px 0; text-align: center; color: black; }
+.b-canon .b-canon__realization h4 { background: #ba141a; display: inline-block; padding: 15px 20px; margin: 0 0 20px; font-size: 30px; color: white; }
+.b-canon .b-canon__realization h3 { font-size: 30px; margin: 20px 0 0; }

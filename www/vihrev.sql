@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 3.2.4
 -- http://www.phpmyadmin.net
 --
--- Хост: 127.0.0.1
--- Время создания: Фев 27 2014 г., 23:51
--- Версия сервера: 5.5.25
--- Версия PHP: 5.3.13
+-- Хост: localhost
+-- Время создания: Фев 28 2014 г., 14:14
+-- Версия сервера: 5.1.44
+-- Версия PHP: 5.3.1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -33,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `on_frontpage` int(11) NOT NULL,
   `index` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
 -- Дамп данных таблицы `clients`
@@ -59,9 +58,9 @@ CREATE TABLE IF NOT EXISTS `navigation` (
   `module` enum('frontpage','portfolio','price','support') NOT NULL COMMENT 'Шаблон страницы',
   `section` varchar(256) NOT NULL,
   `parent` int(11) NOT NULL COMMENT 'Родительский пункт',
-  `side` enum('client','admin') NOT NULL,
+  `side` enum('','client','admin') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
 -- Дамп данных таблицы `navigation`
@@ -104,15 +103,20 @@ CREATE TABLE IF NOT EXISTS `portfolio` (
   `on_frontpage` int(11) NOT NULL,
   `index` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- Дамп данных таблицы `portfolio`
 --
 
 INSERT INTO `portfolio` (`id`, `name`, `introtext`, `text`, `preview`, `flash`, `gif`, `jpg_png`, `html`, `date`, `category`, `on_frontpage`, `index`) VALUES
-(13, 'ЧЕ СТАРС', 'Вводный текст', '<p>Описание</p>', '1393530348453.jpg', '', '', '', '', '2014-02-27 19:45:48', 6, 1, 2),
-(12, 'ФОРЕКС', 'Вводный текст', '<p>Описание</p>', '1393530304174.jpg', '', '', '', '', '2014-02-27 19:45:04', 5, 1, 1);
+(16, 'Canon', 'Вводный текст', '<p>Описание</p>', '1393566961183.jpg', '', '', '', '1393566961877', '2014-02-28 09:56:01', 6, 1, 2),
+(15, 'Canon', 'Вводный текст', '<p>Описание</p>', '1393566928661.jpg', '', '', '', '1393566928463', '2014-02-28 09:55:28', 5, 1, 1),
+(17, 'Canon', 'Вводный текст', '<p>Описание</p>', '1393566999188.jpg', '', '', '', '1393566999339', '2014-02-28 09:56:39', 7, 1, 3),
+(18, 'Canon', 'Вводный текст', '<p>Описание</p>', '1393567024217.jpg', '', '', '', '1393567024832', '2014-02-28 09:57:04', 5, 1, 4),
+(19, 'Canon', 'Вводный текст', '<p>Описание</p>', '1393567061845.jpg', '', '', '', '1393567062296', '2014-02-28 09:57:42', 6, 1, 5),
+(20, 'Canon', 'Вводный текст', '<p>Описание</p>', '1393567118158.jpg', '', '', '', '1393567118376', '2014-02-28 09:58:38', 5, 1, 6),
+(21, 'Canon', 'Вводный текст', '<p>Описание</p>', '1393567138139.jpg', '', '', '', '1393567138516', '2014-02-28 09:58:58', 5, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -126,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `price-list` (
   `price` varchar(256) NOT NULL,
   `category` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 --
 -- Дамп данных таблицы `price-list`
@@ -177,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `support` (
   `name` varchar(256) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Дамп данных таблицы `support`
@@ -192,7 +196,7 @@ INSERT INTO `support` (`id`, `type`, `name`, `value`) VALUES
 (8, 'contacts', 'icq', '355-133-868'),
 (9, 'contacts', 'tel', '+7 931 337 48 37'),
 (10, 'contacts', 'mail', 'wvihrev@gmail.com'),
-(11, 'text', 'about', '<h3>О НАС</h3>\r\n<p>Развивающаяся компания в сфере Интернет-рекламы, которая специализируется на создании флеш-баннеров. Главная цель - создание привлекательного и стильного рекламного продукта, отвечающего всем требованиям современной рекламной индустрии.</p>\r\n<p><strong>Интересные факты</strong><br />В современном мире, где многое зависит от финансов, для проведения рекламной кампании флеш баннер является одним из самых недорогих, но достаточно продуктивных способов раскрутки.</p>\r\n<p>Стоимость флеш баннера может варьироваться и вы всегда можете выбрать именно то, что нужно вам. Ну а мы, в свою очередь, с удовольствием возьмемся за исполнение ваших самых креативных идей и замыслов! Так как мы стремимся к качеству и совершенству каждого рекламного продукта, выпускаемого студией. Заказать флеш баннер</p>'),
+(11, 'text', 'about', '<h3>О НАС</h3>\n<p>Развивающаяся компания в сфере Интернет-рекламы, которая специализируется на создании флеш-баннеров. Главная цель - создание привлекательного и стильного рекламного продукта, отвечающего всем требованиям современной рекламной индустрии.</p>\n<p><strong>Интересные факты</strong><br />В современном мире, где многое зависит от финансов, для проведения рекламной кампании флеш баннер является одним из самых недорогих, но достаточно продуктивных способов раскрутки.</p>\n<p>Стоимость флеш баннера может варьироваться и вы всегда можете выбрать именно то, что нужно вам. Ну а мы, в свою очередь, с удовольствием возьмемся за исполнение ваших самых креативных идей и замыслов! Так как мы стремимся к качеству и совершенству каждого рекламного продукта, выпускаемого студией. Заказать флеш баннер</p>'),
 (12, 'text', 'strategy', '<h3>СТРАТЕГИЯ</h3>\r\n<p><strong>Цель</strong><br />Наша основная задача достижение максимального результата, никогда не останавливаться на достигнутом и постоянно совершенствоваться в сфере интернет рекламы и дизайна.</p>\r\n<p><strong>Методы</strong><br />Основой лучшей реализации рекламы является ясное донесение информации рекламного продукта. От креатива к реализации.</p>'),
 (16, 'text', 'clients', '<h3>КЛИЕНТЫ И БРЕНДЫ</h3>\n<div class="facia">\n<div class="facia-inner">\n<p>Мы работаем вместе с этими брендами и выработали стратегию наряду с уникальным подходом. Мы процветаем и сотрудничаем с клиентами, которые хотят расширить границы и мыслить нестандартно.</p>\n</div>\n</div>');
 
@@ -220,7 +224,3 @@ INSERT INTO `top-banner` (`id`, `file`, `background`, `url`, `index`) VALUES
 (15, '1393095283813.jpg', '#000000', '/portfolio/banners/?id=1', 1),
 (18, '1393095364712.jpg', '#000000', '/portfolio/logo/?id=3', 3),
 (19, '1393095386853.jpg', '#000000', '/portfolio/banners/?id=4', 4);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

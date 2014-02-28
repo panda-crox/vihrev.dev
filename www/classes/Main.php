@@ -237,9 +237,6 @@
 					echo json_encode(array('json' => true, 'updatePage' => true));
 					die();
 				}
-				elseif (isset($_GET['add']) && $_POST) {
-					$this->redirect($requestPath[0]);
-				}
 				else {
 					$data['portfolio'] = $this->select("SELECT `t1`.*, `t2`.`caption` AS `category_name` FROM `portfolio` AS `t1`
 																					LEFT JOIN `navigation` AS `t2` ON `t2`.`id`=`t1`.`category` $condition ORDER BY `index` ASC");
@@ -391,6 +388,7 @@
 			$query = mysql_query("SELECT * FROM `$table` WHERE `id`=$id");
 			$item = mysql_fetch_assoc($query);
 			foreach ($item as $key => $value) {
+				if (!$value) continue;
 				$filepath = $_SERVER['DOCUMENT_ROOT'] . '/files/' . $value;
 				@is_dir($filepath) ? @$this->removeDirectory($filepath) : @unlink($filepath);				
 			}
@@ -409,6 +407,7 @@
 			$query = mysql_query("DELETE FROM `$table` WHERE `id`=$id");
 
 			foreach ($item as $key => $value) {
+				if (!$value) continue;
 				$filepath = $_SERVER['DOCUMENT_ROOT'] . '/files/' . $value;
 				@is_dir($filepath) ? @$this->removeDirectory($filepath) : @unlink($filepath);				
 			}

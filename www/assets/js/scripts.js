@@ -209,6 +209,7 @@ function removeItem (id) {
 }
 
 
-function resizeIframe(obj) {
+function onloadIframe(obj) {
   obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+  $(obj).contents().find('head').append($('<link href="/assets/fonts/stylesheet.css" rel="stylesheet" type="text/css">'));
 }

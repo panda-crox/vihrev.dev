@@ -82,6 +82,7 @@
 		</tr>
 	</table>
 	<input type="hidden" name="i-data[parent]" value="<?php echo $portfolioId ?>">
+	<input type="hidden" name="i-data[module]" value="portfolio">
 	<input type="hidden" name="action" value="insert">
 	<input type="hidden" name="table" value="navigation">
 </form>
