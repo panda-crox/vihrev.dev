@@ -1,7 +1,7 @@
 <?php if ($GLOBALS['top-banner']) : ?>
 <div class="b-banners">
 	<div class="b-banners__slider">
-		<?php foreach ($GLOBALS['top-banner'] as $item) : ?>
+		<?php foreach ($GLOBALS['top-banner'] as $item) : $fileParams = getimagesize($_SERVER['DOCUMENT_ROOT'] . '/files/' . $item['file']); ?>
 		<div class="b-slide" style="background: <?php echo $item['background'] ?>">
 			<div class="container">
 				<a href="<?php echo $item['url'] ?>">
