@@ -1,5 +1,5 @@
 <?php if ($GLOBALS['portfolio-item']['html']) : ?>
-<iframe src="/files/<?php echo $GLOBALS['portfolio-item']['html'] ?>" frameborder="0" scrolling="no" onload='javascript:resizeIframe(this);'></iframe>
+<iframe src="/files/<?php echo $GLOBALS['portfolio-item']['html'] ?>" frameborder="0" scrolling="no" onload='javascript:onloadIframe(this);'></iframe>
 <?php else : ?>
 шаблон работы
 <?php endif; ?>
