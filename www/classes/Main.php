@@ -11,7 +11,9 @@
 		{
 			$this->requestPath = trim(str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']), '/');
 			$this->viewsPath = $_SERVER['DOCUMENT_ROOT'] . '/views/';
+			$this->filesPath = $_SERVER['DOCUMENT_ROOT'] . '/files/';
 			$this->isAdmin = preg_match('/(^admin)/', $_SERVER['HTTP_HOST']);
+			$this->host = preg_replace('/(^admin\.)/', '', $_SERVER['HTTP_HOST']);
 			$this->isAJAX = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 			$this->nav = $this->getNav();
 		}
@@ -64,7 +66,7 @@
 				}
 			}
 
-			$query = mysql_query("SELECT * FROM `navigation` WHERE `side`='' OR `side`='$side' ORDER BY `id` ASC");
+			$query = mysql_query("SELECT * FROM `navigation` WHERE `side`='' OR `side`='$side' ORDER BY `index` ASC");
 			while ($item = mysql_fetch_assoc($query)) {
 				if (!$item['parent']) {
 					$nav[] = $item;
@@ -90,8 +92,7 @@
 
 
 		public function render($template, $data = array())
-		{
-			
+		{			
 			if ($template != '404.php') {
 				$template = $this->isAdmin ? 'admin/'.$template : 'site/'.$template;
 			}
@@ -99,12 +100,15 @@
 				$this->set($key, $value);
 			}
 			$this->set('nav', $this->nav);
+			$this->set('isAdmin', $this->isAdmin);
+			$this->set('host', $this->host);
 			if ($this->isAJAX) {
 				$this->display($template);
 			} else {
 				$this->set('content', $this->fetch($template));
 				$this->display('layout.php');
 			}
+			die();
 		}
 
 
@@ -169,25 +173,52 @@
 				$this->get404();
 			}
 			$data = array();
+			$condition = "";
 
 			if (!$this->isAdmin) {
-				$data['top-banner'] = $this->select("SELECT * FROM `top-banner` ORDER BY `index` ASC");
+				$data['top-banner'] = $this->select("SELECT `top-banner`.*, `portfolio`.`category`, `portfolio`.`id` AS `portfolio_id` FROM `top-banner`
+																						LEFT JOIN `portfolio` ON `portfolio`.`id`=`top-banner`.`portfolio`
+																						ORDER BY `top-banner`.`index` ASC");
 				$data['previews'] = $this->select("SELECT `portfolio`.*, `navigation`.`caption` AS `category_name` FROM `portfolio`
-																					LEFT JOIN `navigation` ON `navigation`.`id`=`portfolio`.`category` WHERE `on_frontpage`=1");
+																					LEFT JOIN `navigation` ON `navigation`.`id`=`portfolio`.`category`
+																					WHERE `on_frontpage`=1 ORDER BY `portfolio`.`index` ASC");
 				$data['clients'] = $this->select("SELECT * FROM `clients` WHERE `on_frontpage`=1 ORDER BY `index` ASC");
 
+				$data['services'] = $this->select("SELECT * FROM `services` ORDER BY `index` ASC");
+
+				foreach ($data['top-banner'] as $key => $item) {
+					$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
+					$data['top-banner'][$key]['url'] = $navItem['url'] . '/?id=' . $item['portfolio_id'];
+				}
 				foreach ($data['previews'] as $key => $item) {
 					$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
 					$data['previews'][$key]['url'] = $navItem['url'] . '/?id=' . $item['id'];
+				}
+				foreach ($data['services'] as $key => $item) {
+					$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
+					$data['services'][$key]['url'] = $navItem['url'];
 				}
 			}
 			else {
 				$navItem = $this->getNavItem($this->nav, 'url', $this->requestPath);
 				if (!$navItem['section']) {
 					$this->redirect($navItem['childs'][0]['url']);
+				}				
+				if ($_POST['action'] == 'getForm' && $_POST['id']) {
+					$condition = "WHERE `id`=".$_POST['id'];
 				}
-				$table = $navItem['section'];
-				$data[$table] = $this->select("SELECT * FROM `$table` ORDER BY `index` ASC");
+				$table = $navItem['section'];				
+				$data[$table] = $this->select("SELECT * FROM `$table` $condition ORDER BY `index` ASC");
+				if ($table == 'top-banner') {
+					$data['portfolio'] = $this->select("SELECT * FROM `portfolio`");
+					foreach ($data['portfolio'] as $key => $item) {
+						$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
+						$data['portfolio'][$key]['url'] = $navItem['url'] . '/?id=' . $item['id'];
+					}
+				}
+				if ($_POST['action'] == 'getForm') {
+					$this->render("forms/$table.php", $data);
+				}
 			}
 
 			$this->render('frontpage.php', $data);
@@ -196,7 +227,7 @@
 
 		public function portfolio()
 		{
-			if ($_GET && (count($_GET) > 1 || (!isset($_GET['id']) && !isset($_GET['add']) && !isset($_GET['branches'])))) {
+			if ($_GET && ( count($_GET) > 1 || (!isset($_GET['id']) && !isset($_GET['branches'])) )) {
 				$this->get404();
 			}
 			$requestPath = explode('/', $this->requestPath);
@@ -204,15 +235,14 @@
 			$condition = "";
 			if (count($requestPath) > 1) {
 				$condition .= "WHERE `t1`.`category`=(SELECT `id` FROM `navigation` WHERE `url`='{$requestPath[1]}') ";
-
 			}
 
-			if ($_GET['id']) {
+			if ($_GET['id'] && !isset($_GET['action'])) {
 				$condition .= "AND `t1`.`id`={$_GET['id']}";
 				$item = $this->select("SELECT `t1`.*, `prev`.`id` AS `prev_id`, `prev`.`name` AS `prev_name`, `prev`.`category` AS `prev_category`,
 															`next`.`id` AS `next_id`, `next`.`name` AS `next_name`, `next`.`category` AS `next_category` FROM `portfolio` AS `t1`
-															LEFT JOIN `portfolio` AS `prev` ON `prev`.`id`=(SELECT `id` FROM `portfolio` WHERE `id`<{$_GET['id']} ORDER BY `id` DESC LIMIT 1)
-															LEFT JOIN `portfolio` AS `next` ON `next`.`id`=(SELECT `id` FROM `portfolio` WHERE `id`>{$_GET['id']} ORDER BY `id` ASC LIMIT 1)
+															LEFT JOIN `portfolio` AS `prev` ON `prev`.`id`=(SELECT `id` FROM `portfolio` WHERE `index`<`t1`.`index` ORDER BY `index` DESC LIMIT 1)
+															LEFT JOIN `portfolio` AS `next` ON `next`.`id`=(SELECT `id` FROM `portfolio` WHERE `index`>`t1`.`index` ORDER BY `index` ASC LIMIT 1)
 															$condition GROUP BY 1 LIMIT 1");
 				if (!$item) {
 					$this->get404();
@@ -233,18 +263,23 @@
 				$this->render('portfolio-item.php', $data);
 			}
 			else {
-				if (isset($_GET['branches']) && $_POST) {
+				if (isset($_GET['branches']) && $_POST && $_POST['action'] != 'getForm') {
 					echo json_encode(array('json' => true, 'updatePage' => true));
 					die();
 				}
-				else {
-					$data['portfolio'] = $this->select("SELECT `t1`.*, `t2`.`caption` AS `category_name` FROM `portfolio` AS `t1`
+				if ($_POST['action'] == 'getForm' && $_POST['id']) {
+					$condition = "WHERE `t1`.`id`=".$_POST['id'];
+				}
+				$data['portfolio'] = $this->select("SELECT `t1`.*, `t2`.`caption` AS `category_name` FROM `portfolio` AS `t1`
 																					LEFT JOIN `navigation` AS `t2` ON `t2`.`id`=`t1`.`category` $condition ORDER BY `index` ASC");
-					foreach ($data['portfolio'] as $key => $item) {
-						$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
-						$data['portfolio'][$key]['url'] = $navItem['url'] . '/?id=' . $item['id'];
-					}
-				}				
+				foreach ($data['portfolio'] as $key => $item) {
+					$navItem = $this->getNavItem($this->nav, 'id', $item['category']);
+					$data['portfolio'][$key]['url'] = $navItem['url'] . '/?id=' . $item['id'];
+				}
+
+				if ($_POST['action'] == 'getForm') {
+					$this->render("forms/portfolio.php", $data);
+				}
 				
 				$this->render('portfolio.php', $data);
 			}
@@ -257,6 +292,7 @@
 				$this->get404();
 			}
 			$data = array();
+			$condition = "";
 			if ($_GET['category']) {
 				$navItem = $this->getNavItem($this->nav, 'url_', $_GET['category']);
 				if (!$navItem) {
@@ -268,8 +304,16 @@
 				$this->redirect('?category=' . $navItemParent['childs'][0]['url_']);
 			}
 
-			$data['price'] = $this->select("SELECT * FROM `price-list` WHERE `category`={$navItem['id']}");
+			if ($_POST['action'] == 'getForm' && $_POST['id']) {
+				$condition = "AND `id`=".$_POST['id'];
+			}
+
+			$data['price'] = $this->select("SELECT * FROM `price-list` WHERE `category`={$navItem['id']} $condition");
 			$data['category'] = $navItem['id'];
+
+			if ($_POST['action'] == 'getForm') {
+				$this->render("forms/price.php", $data);
+			}
 
 			$this->render('price.php', $data);
 		}
@@ -281,6 +325,7 @@
 				$this->get404();
 			}
 			$data = array();
+			$condition = "";
 			if (!$this->isAdmin) {
 				$data['clients'] = $this->select("SELECT * FROM `clients`");
 				$data['support'] = $this->select("SELECT * FROM `support`");
@@ -289,8 +334,15 @@
 				if (!$navItem['section']) {
 					$this->redirect($navItem['childs'][0]['url']);
 				}
+				if ($_POST['action'] == 'getForm' && $_POST['id']) {
+					$condition = "AND `id`=".$_POST['id'];
+				}
 				$section = $navItem['section'];
-				$data[$section] = $this->select("SELECT * FROM `support` WHERE `type`='$section'");
+				$data[$section] = $this->select("SELECT * FROM `support` WHERE `type`='$section' $condition");
+
+				if ($_POST['action'] == 'getForm') {
+					$this->render("forms/support-$section.php", $data);
+				}
 			}
 
 			$this->render('support.php', $data);
@@ -302,6 +354,19 @@
 			header("HTTP/1.0 404 Not Found");
 			$this->render('404.php');
 			die();
+		}
+
+
+		public function auth($data)
+		{
+			$user = $this->select("SELECT * FROM `settings` WHERE `login`='{$data['login']}' && `password`='{$data['password']}'");
+			if ($user) {
+				$_SESSION['error'] = false;
+				$_SESSION['user'] = $user[0];
+				$this->redirect('/');
+			} else {
+				$_SESSION['error'] = true;
+			}
 		}
 
 
@@ -317,7 +382,8 @@
 		{
 			require_once('classes/phpmailer/class.phpmailer.php');
 			$mailer = new PHPMailer();
-			$to = 'salavat-1@mail.ru';
+			$contacts = $this->select("SELECT * FROM `support` WHERE `type`='contacts' AND `name`='mail'");
+			$to = $contacts[0]['value'];
 			$subject = 'Новая заявка с сайта';
 			$message = nl2br($_POST['text']);
 
@@ -373,12 +439,15 @@
 		public function insert($table, $data)
 		{
 			$keys = ''; $values = '';
+			$query = mysql_query("SELECT `index` FROM `$table` ORDER BY `index` DESC LIMIT 1");
+			$last = mysql_num_rows($query) ? mysql_fetch_assoc($query) : array('index' => 0);
 			foreach ($data as $key => $value) {
 				if (is_array($value)) $value = serialize($value);
 				$keys .= $keys ? ",`$key`" : "`$key`";
 				$values .= $values ? ",'$value'" : "'$value'";
 			}
 			$query = mysql_query("INSERT INTO `$table` ($keys) VALUES ($values)");
+			$query = mysql_query("UPDATE `$table` SET `index`=".($last['index'] + 1)." WHERE `id`=".mysql_insert_id());
 		}
 
 
@@ -388,9 +457,19 @@
 			$query = mysql_query("SELECT * FROM `$table` WHERE `id`=$id");
 			$item = mysql_fetch_assoc($query);
 			foreach ($item as $key => $value) {
-				if (!$value) continue;
-				$filepath = $_SERVER['DOCUMENT_ROOT'] . '/files/' . $value;
-				@is_dir($filepath) ? @$this->removeDirectory($filepath) : @unlink($filepath);				
+				if (!$value || $value == $data[$key]) continue;
+				if ($v = unserialize($value)) {
+					foreach ($v as $key2 => $value2) {
+						if (!$value2 || in_array($value2, $data[$key])) continue;
+						$filepath = $this->filesPath . $value2;
+						@is_dir($filepath) ? @$this->removeDirectory($filepath) : @unlink($filepath);
+					}
+				}
+				else {
+					$filepath = $this->filesPath . $value;
+					@is_dir($filepath) ? @$this->removeDirectory($filepath) : @unlink($filepath);
+				}
+								
 			}
 			foreach ($data as $key => $value) {
 				if (is_array($value)) $value = serialize($value);
@@ -408,13 +487,13 @@
 
 			foreach ($item as $key => $value) {
 				if (!$value) continue;
-				$filepath = $_SERVER['DOCUMENT_ROOT'] . '/files/' . $value;
+				$filepath = $this->filesPath . $value;
 				@is_dir($filepath) ? @$this->removeDirectory($filepath) : @unlink($filepath);				
 			}
 		}
 
 
-		public function changeQueue($table, $index, $type)
+		public function queue($table, $index, $type)
 		{
 			$symbol = $type == 'up' ? "<" : ">";
 			$order = $type == 'up' ? "DESC" : "ASC";
@@ -422,6 +501,12 @@
 			$item = mysql_fetch_assoc($query);
 			$query = mysql_query("UPDATE `$table` SET `index`={$item['index']} WHERE `index`=$index");
 			$query = mysql_query("UPDATE `$table` SET `index`=$index WHERE `id`={$item['id']}");
+		}
+
+
+		public function onFrontpage($table, $id, $val)
+		{
+			$query = mysql_query("UPDATE `$table` SET `on_frontpage`=$val WHERE `id`=$id");
 		}
 	}
 ?>

@@ -1,14 +1,14 @@
 <?php if ($GLOBALS['top-banner']) : ?>
 <div class="b-banners">
 	<div class="b-banners__slider">
-		<?php foreach ($GLOBALS['top-banner'] as $item) : $fileParams = getimagesize($_SERVER['DOCUMENT_ROOT'] . '/files/' . $item['file']); ?>
+		<?php foreach ($GLOBALS['top-banner'] as $item) : $size = getimagesize($_SERVER['DOCUMENT_ROOT'].'/files/'.$item['file']); ?>
 		<div class="b-slide" style="background: <?php echo $item['background'] ?>">
 			<div class="container">
 				<a href="<?php echo $item['url'] ?>">
 					<?php if (preg_match('/(\.(jpg|jpeg|png|gif))$/', $item['file'])) : ?>
 					<img src="/files/<?php echo $item['file'] ?>">
 					<?php elseif (preg_match('/(\.swf)$/', $item['file'])) : ?>
-					<object type="application/x-shockwave-flash" data="/files/<?php echo $item['file'] ?>" width="100%" height="300">
+					<object type="application/x-shockwave-flash" data="/files/<?php echo $item['file'] ?>" width="<?php echo $size ? $size[0] : '100%' ?>" height="300">
 					  <param name="movie" value="/files/<?php echo $item['file'] ?>">
 					  <param name="quality" value="high">
 						<param name="wmode" value="transparent" />
@@ -47,29 +47,16 @@
 </div>
 <?php endif; ?>
 
+<?php if ($GLOBALS['services']) : ?>
 <div class="b-services">
+	<?php foreach ($GLOBALS['services'] as $item) : ?>
 	<div class="b-services__item">
-		<div class="b-services__item__image"><img src="assets/images/service-1.png" alt=""></div>
+		<div class="b-services__item__image"><img src="/files/<?php echo $item['file'] ?>" alt=""></div>
 		<div class="b-services__item__text">
-			<div>СОЗДАНИЕ HTML5 БАННЕРОВ</div>
-			<div>Креативные идеи на всех устройствах.<br>Интересные анимации, адаптивность.<br>Отличный инструмент медийной рекламы!</div>
-			<a href="#" class="b-services__item__more">ОБЗОР</a>
+			<?php echo nl2br($item['text']) ?>
+			<div><a href="/<?php echo $item['url'] ?>" class="b-services__item__more">ОБЗОР</a></div>
 		</div>
 	</div>
-	<div class="b-services__item">
-		<div class="b-services__item__image"><img src="assets/images/service-2.png" alt=""></div>
-		<div class="b-services__item__text">
-			<div>ЛОГОТИП И ФИРМЕННЫЙ СТИЛЬ</div>
-			<div>Современнные и стильные логотипы, точно отражающие последние тенденции времени.<br>Вас заметят и будут узнавать!</div>
-			<a href="#" class="b-services__item__more">ОБЗОР</a>
-		</div>
-	</div>
-	<div class="b-services__item">
-		<div class="b-services__item__image"><img src="assets/images/service-3.png" alt=""></div>
-		<div class="b-services__item__text">
-			<div>ПОЛИГРАФИЯ</div>
-			<div>Буклеты, визитки, билборды и многое другое, сделаем красиво и качественно в удобные для Вас сроки!</div>
-			<a href="#" class="b-services__item__more">ОБЗОР</a>
-		</div>
-	</div>
+	<?php endforeach; ?>
 </div>
+<?php endif; ?>

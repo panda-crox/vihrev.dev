@@ -21,7 +21,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, b {font-family: "MyriadProBold"; font-weight: normal;}
-i {font-family: "MyriadProItalic"; font-style: normal;}
+i, em {font-family: "MyriadProItalic"; font-style: normal;}
 a {
 	outline: none;
 	color: black;
@@ -43,7 +43,12 @@ iframe {
 	resize: none;
 	@include box-sizing(border-box);
 }
-textarea {height: 100px;}
+textarea {height: 117px;}
+option.default {display: none;}
+
+[class^="icon-"] {text-decoration: none;}
+
+.error {color: $red;}
 
 
 .btn {
@@ -61,10 +66,10 @@ textarea {height: 100px;}
 
 
 .uploader {
+	white-space: nowrap;
 	.admin & {
 		display: inline-block;
 		vertical-align: top;
-		width: 80px;
 	}
 	.btn {
 		position: relative;
@@ -79,6 +84,12 @@ textarea {height: 100px;}
 			opacity: 0;
 			cursor: pointer;
 		}
+	}
+	.format {
+		font-size: 12px;
+		display: inline-block;
+		padding: 5px;
+		color: #999999;
 	}
 	.selected-files {
 		padding: 0;
@@ -178,12 +189,13 @@ textarea {height: 100px;}
 				visibility: hidden;
 				opacity: 0;
 				@include box-shadow(0 2px 3px transparentize(black, 0.7));
-				a {
+				a, span {
 					display: block;
 					padding: 10px;
 					font-size: 12px;
 					color: black;
 					text-decoration: none;
+					cursor: pointer;
 					border-bottom: 1px solid $gray;
 					@include transition(0.5s);
 					&:hover {
@@ -199,7 +211,6 @@ textarea {height: 100px;}
 					visibility: visible;
 					opacity: 1;
 					z-index: 1000;
-					@include transition(0.5s);
 				}
 			}
 			.client &:nth-child(1) {display: none;}
@@ -219,7 +230,7 @@ textarea {height: 100px;}
 					width: 80px;
 					visibility: visible;
 					opacity: 1;
-					a {
+					a, span {
 						padding: 7px 0;
 						font-size: 12px;
 						color: #bababa;
@@ -235,7 +246,7 @@ textarea {height: 100px;}
 						background: #f4f4f4;
 						@include transition(none);
 						@include box-shadow(none);
-						a {
+						a, span {
 							padding: 15px;
 							font-size: 14px;
 							line-height: 15px;
@@ -301,7 +312,7 @@ textarea {height: 100px;}
 		background: black;
 		text-align: center;
 		a {display: block;}
-		img {
+		img, object {
 			vertical-align: top;
 			max-width: 100%;
 		}
@@ -515,6 +526,23 @@ textarea {height: 100px;}
 				color: white;
 			}
 		}
+	}
+}
+
+
+.b-portfolio-item {
+	.b-portfolio-item__title {
+		font-size: 35px;
+		text-align: center;
+		padding: 30px 0;
+	}
+	.b-portfolio-item__file {
+		text-align: center;
+		padding: 30px 0;
+	}
+	.b-portfolio-item__text {
+		background: #eeeeee;
+		padding: 20px 0;
 	}
 }
 
@@ -900,7 +928,7 @@ textarea {height: 100px;}
 }
 
 
-.admin .b-content {
+.admin {
 	font-size: 14px;
 	table {
 		border: none;
@@ -908,14 +936,14 @@ textarea {height: 100px;}
 		width: 100%;
 		max-width: 800px;
 		td, th {
-			padding: 2px 10px;
-			height: 41px;
+			padding: 9px 10px;
+			height: 27px;
 			border-right: 1px solid #eaeaea;
 			border-bottom: 1px solid #eaeaea;
 			&.small {
-				padding: 0;
+				vertical-align: middle;
 				text-align: center;
-				width: 45px;
+				width: 25px;
 			}
 			[class^="icon-"] {
 				margin: 0 5px;
@@ -927,7 +955,17 @@ textarea {height: 100px;}
 					color: $red;
 				}
 			}
-			img {max-height: 100%; vertical-align: top;}
+			.preview {
+				a {
+					display: inline-block;
+					vertical-align: top;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+				[class^="icon-"] {line-height: 0.7;}
+			}
+			img, object {vertical-align: top;}
 		}
 		th {white-space: nowrap;}
 	}
@@ -940,11 +978,9 @@ textarea {height: 100px;}
 	}
 	button.btn {height: 26px;}
 	.uploader .btn {background: $gray;}
-	.b-format {
-		font-size: 12px;
-		display: inline-block;
-		padding: 5px;
-		color: #999999;
+	.portfolio-form {
+		td {vertical-align: top;}
+		.uploader {width: 80px;}
 	}
 	.hidden {display: none;}
 	.edit {
@@ -1068,4 +1104,49 @@ textarea {height: 100px;}
 		}
 		.b-alert__msg__text {padding: 20px;}
 	}
+}
+
+
+.b-overlay {
+	background: transparentize(black, 0.3);
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	display: none;
+	&.visible {display: block;}
+}
+
+
+.b-popup {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	padding-top: 50px;
+	text-align: center;
+	z-index: 10000;
+	display: none;
+	&.visible {display: block;}
+	.b-popup__inner {
+		background: white;
+		display: inline-block;
+		padding: 20px;
+	}
+	th, td {border: 1px solid #eaeaea;}
+	th {text-align: center;}
+}
+
+
+.auth-form {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -90px 0 0 -145px;
+	width: 250px;
+	padding: 0 20px;
+	text-align: center;
+	border: 1px solid #999;
 }

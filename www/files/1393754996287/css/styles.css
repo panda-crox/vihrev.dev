@@ -1,0 +1,18 @@
+@import url(/assets/css/base.css);
+
+
+.b-canon .b-canon__title { font-size: 35px; text-align: center; padding: 30px 0; }
+.b-canon .b-canon__title b { font-size: 40px; color: #ba141a; }
+.b-canon .b-canon__banner { background: black url(../images/canon-bg.jpg) center top no-repeat; height: 553px; padding: 90px 0 0; text-align: center; }
+.b-canon .b-canon__banner img { border: 40px solid white; }
+.b-canon .b-canon__aim { padding: 30px 0; color: #4d4d4d; }
+.b-canon .b-canon__aim h4 { font-size: 18px; margin: 5px 0; color: #ba141a; }
+.b-canon .b-canon__aim .b-canon__aim__author { color: black; }
+.b-canon .b-canon__stages { background: #ba141a; padding: 30px 0; color: white; }
+.b-canon .b-canon__stages h4 { font-size: 18px; margin: 5px 0; }
+.b-canon .b-canon__stages .number { font-size: 60px; }
+.b-canon .b-canon__stages .left { float: left; width: 45%; }
+.b-canon .b-canon__stages .right { float: right; width: 45%; text-align: right; }
+.b-canon .b-canon__realization { padding: 30px 0; text-align: center; color: black; }
+.b-canon .b-canon__realization h4 { background: #ba141a; display: inline-block; padding: 15px 20px; margin: 0 0 20px; font-size: 30px; color: white; }
+.b-canon .b-canon__realization h3 { font-size: 30px; margin: 20px 0 0; }

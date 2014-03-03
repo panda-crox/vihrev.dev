@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	mysql_connect('localhost', 'root', '') or die('No connect');
 	mysql_select_db('vihrev');
 	mysql_query("SET CHARSET utf8");
@@ -39,20 +40,31 @@
 	else {
 		if ($_POST) {
 			if ($_POST['action'] == 'insert') {
-				$main->insert($_POST['table'], $_POST['i-data']);
+				$main->insert($_POST['table'], $_POST['data']);
 			}
 			elseif ($_POST['action'] == 'update') {
-				$main->update($_POST['table'], $_POST['u-data'], $_POST['id']);
+				$main->update($_POST['table'], $_POST['data'], $_POST['id']);
 			}
-			elseif ($_POST['action'] == 'remove') {
+			elseif ($_POST['action'] == 'delete') {
 				$main->delete($_POST['table'], $_POST['id']);
 			}
-			elseif ($_POST['action'] == 'change-queue') {
-				$main->changeQueue($_POST['table'], $_POST['index'], $_POST['type']);
+			elseif ($_POST['action'] == 'queue') {
+				$main->queue($_POST['table'], $_POST['index'], $_POST['type']);
+			}
+			elseif ($_POST['action'] == 'on-frontpage') {
+				$main->onFrontpage($_POST['table'], $_POST['id'], $_POST['val']);
 			}
 			elseif ($_POST['action'] == 'message') {
 				$main->sendMail();
 			}
+			elseif ($_POST['action'] == 'auth') {
+				$main->auth($_POST['data']);
+			}
+		}
+
+		if ($main->isAdmin && !$_SESSION['user']) {
+			echo $main->fetch('admin/auth.php');
+			die();
 		}
 
 		$func =$main->getModule($main->nav);
